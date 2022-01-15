@@ -10,11 +10,19 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ReportService {
     @GET("report/era")
     suspend fun getEraReport(
+        @Query("start_era_index") startEraIndex: Int,
+        @Query("end_era_index") endEraIndex: Int?,
+    ): Response<List<EraReport>>
+
+    @GET("report/validator/{validator_account_id_hex}")
+    suspend fun getEraValidatorReport(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
         @Query("start_era_index") startEraIndex: Int,
         @Query("end_era_index") endEraIndex: Int?,
     ): Response<List<EraReport>>
