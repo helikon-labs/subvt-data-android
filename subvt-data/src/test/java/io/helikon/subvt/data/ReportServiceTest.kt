@@ -10,11 +10,53 @@ class ReportServiceTest {
 
     @ExperimentalCoroutinesApi
     @Test
+    fun testEraReportBadParams() = runTest {
+        val reportService = ReportService.getInstance("http://78.181.100.160:17900/")
+        val response = reportService.getEraReport(3201, -10)
+        assertFalse(response.isSuccessful)
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun testGetSingleEraReport() = runTest {
+        val reportService = ReportService.getInstance("http://78.181.100.160:17900/")
+        val response = reportService.getEraReport(3201, null)
+        assertTrue(response.isSuccessful)
+        assertEquals(response.body()?.size ?: 0, 1)
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
     fun testGetMultipleEraReport() = runTest {
         val reportService = ReportService.getInstance("http://78.181.100.160:17900/")
         val response = reportService.getEraReport(3201, 3205)
         assertTrue(response.isSuccessful)
         assertEquals(response.body()?.size ?: 0, 5)
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun testEraValidatorReportBadParams() = runTest {
+        val reportService = ReportService.getInstance("http://78.181.100.160:17900/")
+        val response = reportService.getEraValidatorReport(
+            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
+            -5,
+            -2
+        )
+        assertFalse(response.isSuccessful)
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun testGetSingleEraValidatorReport() = runTest {
+        val reportService = ReportService.getInstance("http://78.181.100.160:17900/")
+        val response = reportService.getEraValidatorReport(
+            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
+            3201,
+            null
+        )
+        assertTrue(response.isSuccessful)
+        assertEquals(response.body()?.size ?: 0, 1)
     }
 
     @ExperimentalCoroutinesApi
