@@ -11,6 +11,7 @@ import io.helikon.subvt.data.model.rpc.*
 import io.helikon.subvt.data.model.rpc.RPCSubscribeStatus
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.cio.websocket.*
 
@@ -20,7 +21,13 @@ class RPCService(
 ) {
 
     private val client: HttpClient = HttpClient {
-        install(WebSockets)
+        install(WebSockets) {
+            pingInterval = 5000
+        }
+        install(HttpTimeout) {
+            requestTimeoutMillis = HttpTimeout.INFINITE_TIMEOUT_MS
+            connectTimeoutMillis = 10000
+        }
     }
     private var sessionMap = mutableMapOf<Long, DefaultClientWebSocketSession>()
     private val networkStatusRPCResponseType = TypeToken.getParameterized(
