@@ -39,7 +39,7 @@ class RPCService(
             gson.toJson(
                 RPCRequest(
                     id = 5,
-                    method = "unsubscribe_live_network_status",
+                    method = "unsubscribe_networkStatus",
                     params = listOf(subscriptionId),
                 )
             )
@@ -56,7 +56,7 @@ class RPCService(
                 gson.toJson(
                     RPCRequest(
                         id = 5,
-                        method = "subscribe_live_network_status",
+                        method = "subscribe_networkStatus",
                         params = listOf(),
                     )
                 )
