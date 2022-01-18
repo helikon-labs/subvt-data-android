@@ -12,7 +12,7 @@ import org.junit.Assert.*
 class NetworkStatusServiceTest {
 
     companion object {
-        val service = RPCService("78.181.100.160", 17888)
+        private val service = RPCService("78.181.100.160", 17888)
 
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -30,7 +30,7 @@ class NetworkStatusServiceTest {
         service.subscribeNetworkStatus { subscriptionId, update ->
             update.status?.let {
                 Logger.d("Network status received. Best block #${it.bestBlockNumber}.")
-                bestBlockNumber = it.bestBlockNumber!!
+                bestBlockNumber = it.bestBlockNumber
             }
             update.diff?.let {
                 Logger.d("Network status update. Best block #${it.bestBlockNumber}.")

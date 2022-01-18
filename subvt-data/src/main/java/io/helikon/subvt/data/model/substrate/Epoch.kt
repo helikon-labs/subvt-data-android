@@ -1,4 +1,4 @@
-package io.helikon.subvt.data.model
+package io.helikon.subvt.data.model.substrate
 
 data class Epoch(
     val index: Int,
