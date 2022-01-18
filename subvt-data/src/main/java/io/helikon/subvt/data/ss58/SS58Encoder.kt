@@ -97,11 +97,12 @@ object SS58Encoder {
 
     fun String.addressByteOrNull(): Short? = extractAddressByteOrNull(this)
 
-    fun String.accountIdHexToAddress(addressByte: Short) = when (this.startsWith("0x")) {
+    fun String.hexToBytes() = when (this.startsWith("0x")) {
         true -> this.substring(2)
         false -> this
     }.chunked(2)
         .map { it.toInt(16).toByte() }
         .toByteArray()
-        .toAddress(addressByte)
+
+    fun String.hexToAddress(addressByte: Short) = hexToBytes().toAddress(addressByte)
 }

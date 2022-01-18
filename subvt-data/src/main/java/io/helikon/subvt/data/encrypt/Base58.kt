@@ -146,7 +146,7 @@ class Base58 {
         return remainder.toByte()
     }
 
-    private fun copyOfRange(source: ByteArray?, from: Int, to: Int): ByteArray {
+    private fun copyOfRange(source: ByteArray, from: Int, to: Int): ByteArray {
         val range = ByteArray(to - from)
         System.arraycopy(source, from, range, 0, range.size)
         return range
