@@ -3,7 +3,7 @@ package io.helikon.subvt.data.model.substrate
 import java.math.BigInteger
 
 data class Stake(
-    val stashAccountId: String,
+    val stashAccountId: AccountId,
     val totalAmount: BigInteger,
     val activeAmount: BigInteger,
 )

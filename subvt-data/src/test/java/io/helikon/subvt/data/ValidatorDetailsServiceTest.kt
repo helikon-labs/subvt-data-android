@@ -26,7 +26,7 @@ class ValidatorDetailsServiceTest {
         val validatorAccountId = "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
         val service = RPCService("78.181.100.160", 17891)
         var updateCount = 0
-        val updateCountLimit = 5
+        val updateCountLimit = 3
         service.subscribeValidatorDetails(validatorAccountId) { subscriptionId, finalized_block_number, details, diff ->
             Logger.d(
                 "Update received for finalized block #%d.\nValidator details: %s\nDiff: %s",

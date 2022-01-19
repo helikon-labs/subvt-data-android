@@ -26,7 +26,7 @@ class ValidatorListServiceTest {
         Logger.d("Test active validator list subscription.")
         val service = RPCService("78.181.100.160", 17889)
         var updateCount = 0
-        val updateCountLimit = 5
+        val updateCountLimit = 3
         var firstResponseIsOnlyInsert: Boolean? = null
         service.subscribeValidatorList { subscriptionId, update ->
             if (firstResponseIsOnlyInsert == null) {
@@ -54,7 +54,7 @@ class ValidatorListServiceTest {
         Logger.d("Test inactive validator list subscription.")
         val service = RPCService("78.181.100.160", 17890)
         var updateCount = 0
-        val updateCountLimit = 5
+        val updateCountLimit = 3
         var firstResponseIsOnlyInsert: Boolean? = null
         service.subscribeValidatorList { subscriptionId, update ->
             if (firstResponseIsOnlyInsert == null) {

@@ -21,7 +21,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.Arrays
 
-class Base58 {
+internal class Base58 {
     private val alphabet =
         "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz".toCharArray()
     private val indices = IntArray(128)

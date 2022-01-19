@@ -1,14 +1,11 @@
 package io.helikon.subvt.data.model
 
 import com.google.gson.annotations.SerializedName
-import io.helikon.subvt.data.model.substrate.InactiveNominationsSummary
-import io.helikon.subvt.data.model.substrate.StakeSummary
-import io.helikon.subvt.data.model.substrate.ValidatorPreferences
-import io.helikon.subvt.data.model.substrate.ValidatorStakeSummary
+import io.helikon.subvt.data.model.substrate.*
 
 data class ValidatorSummary(
-    val accountId: String,
-    val controllerAccountId: String?,
+    val accountId: AccountId,
+    val controllerAccountId: AccountId?,
     val display: String?,
     val parentDisplay: String?,
     val childDisplay: String?,
@@ -32,8 +29,8 @@ data class ValidatorSummary(
 )
 
 data class ValidatorSummaryDiff(
-    val accountId: String,
-    val controllerAccountId: String?,
+    val accountId: AccountId,
+    val controllerAccountId: AccountId?,
     val display: String?,
     val parentDisplay: String?,
     val childDisplay: String?,

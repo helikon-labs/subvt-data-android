@@ -10,6 +10,8 @@ import io.helikon.subvt.data.model.*
 import io.helikon.subvt.data.model.rpc.*
 import io.helikon.subvt.data.model.rpc.RPCSubscribeStatus
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
+import io.helikon.subvt.data.model.substrate.AccountId
+import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.features.websocket.*
@@ -46,6 +48,7 @@ class RPCService(
     companion object {
         private val gson: Gson = GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
             .create()
     }
 

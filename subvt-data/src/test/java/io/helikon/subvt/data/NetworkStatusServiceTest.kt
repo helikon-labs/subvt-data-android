@@ -27,6 +27,7 @@ class NetworkStatusServiceTest {
     fun testGetNetworkStatus() = runTest {
         var updateCount = 0
         var bestBlockNumber: Long = 0
+        val updateCountLimit = 3
         service.subscribeNetworkStatus { subscriptionId, update ->
             update.status?.let {
                 Logger.d("Network status received. Best block #${it.bestBlockNumber}.")
@@ -47,11 +48,11 @@ class NetworkStatusServiceTest {
                     }
                 }
             }
-            if (updateCount == 3) {
+            if (updateCount == updateCountLimit) {
                 Logger.d("Unsubscribe from network status.")
                 service.unsubscribeNetworkStatus(subscriptionId)
             }
         }
-        assertEquals(3, updateCount)
+        assertEquals(updateCountLimit, updateCount)
     }
 }

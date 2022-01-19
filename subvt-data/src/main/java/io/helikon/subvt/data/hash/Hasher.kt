@@ -2,7 +2,7 @@ package io.helikon.subvt.data.hash
 
 import org.spongycastle.jcajce.provider.digest.Blake2b
 
-object Hasher {
+internal object Hasher {
     private val blake2bLock = Any()
     private val blake2b256 = Blake2b.Blake2b256()
     private val blake2b512 = Blake2b.Blake2b512()

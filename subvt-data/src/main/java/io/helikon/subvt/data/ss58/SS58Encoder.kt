@@ -9,7 +9,7 @@ import java.lang.Exception
 import kotlin.experimental.and
 import kotlin.experimental.or
 
-object SS58Encoder {
+internal object SS58Encoder {
     private val PREFIX = "SS58PRE".toByteArray(Charsets.UTF_8)
     private const val PREFIX_SIZE = 2
     private const val PUBLIC_KEY_SIZE = 32
@@ -89,7 +89,7 @@ object SS58Encoder {
         null
     }
 
-    private fun ByteArray.toAddress(addressByte: Short) = encode(this, addressByte)
+    fun ByteArray.toSS58(prefix: Short) = encode(this, prefix)
 
     fun String.toAccountId(): ByteArray = decode(this)
 
@@ -104,5 +104,5 @@ object SS58Encoder {
         .map { it.toInt(16).toByte() }
         .toByteArray()
 
-    fun String.hexToAddress(addressByte: Short) = hexToBytes().toAddress(addressByte)
+    fun String.hexToAddress(prefix: Short) = hexToBytes().toSS58(prefix)
 }
