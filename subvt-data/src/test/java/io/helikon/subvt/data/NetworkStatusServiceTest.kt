@@ -26,11 +26,11 @@ class NetworkStatusServiceTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun testGetNetworkStatus() = runTest {
+    fun testGetNetworkStatus() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         var updateCount = 0
         var lastBestBlockNumber: Long = 0
         val updateCountLimit = 2
-        val listener = object: RPCSubscriptionListener<NetworkStatus, NetworkStatusDiff> {
+        val listener = object : RPCSubscriptionListener<NetworkStatus, NetworkStatusDiff> {
             override suspend fun onSubscribed(
                 service: RPCSubscriptionService<NetworkStatus, NetworkStatusDiff>,
                 subscriptionId: Long,

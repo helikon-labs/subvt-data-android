@@ -80,7 +80,7 @@ class ValidatorListServiceTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun testActiveValidatorList() = runTest {
+    fun testActiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(
             testValidatorList(
                 "78.181.100.160",
@@ -91,7 +91,7 @@ class ValidatorListServiceTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun testInactiveValidatorList() = runTest {
+    fun testInactiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(
             testValidatorList(
                 "78.181.100.160",

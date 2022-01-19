@@ -26,11 +26,12 @@ class ValidatorDetailsServiceTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun testValidatorDetails() = runTest {
-        val validatorAccountId = "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
+    fun testValidatorDetails() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
+        val validatorAccountId =
+            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
         var updateCount = 0
         val updateCountLimit = 2
-        val listener = object: RPCSubscriptionListener<ValidatorDetails, ValidatorDetailsDiff> {
+        val listener = object : RPCSubscriptionListener<ValidatorDetails, ValidatorDetailsDiff> {
             override suspend fun onSubscribed(
                 service: RPCSubscriptionService<ValidatorDetails, ValidatorDetailsDiff>,
                 subscriptionId: Long,
