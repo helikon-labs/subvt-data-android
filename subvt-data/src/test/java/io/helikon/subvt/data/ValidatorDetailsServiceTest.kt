@@ -77,6 +77,6 @@ class ValidatorDetailsServiceTest {
             listener,
         )
         service.subscribe(listOf(validatorAccountId))
-        assertEquals(updateCountLimit, updateCount)
+        assertTrue(updateCount >= updateCountLimit)
     }
 }

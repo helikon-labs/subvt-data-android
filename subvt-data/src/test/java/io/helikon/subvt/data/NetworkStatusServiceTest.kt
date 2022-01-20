@@ -81,6 +81,6 @@ class NetworkStatusServiceTest {
             listener
         )
         service.subscribe(listOf())
-        assertEquals(updateCountLimit, updateCount)
+        assertTrue(updateCount >= updateCountLimit)
     }
 }

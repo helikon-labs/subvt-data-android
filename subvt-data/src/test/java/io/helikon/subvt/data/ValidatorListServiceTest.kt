@@ -74,7 +74,8 @@ class ValidatorListServiceTest {
             listener
         )
         service.subscribe(listOf())
-        return firstResponseIsOnlyInsert ?: false
+        return (firstResponseIsOnlyInsert ?: false)
+                && (updateCount >= updateCountLimit)
     }
 
     @ExperimentalCoroutinesApi
