@@ -10,7 +10,6 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class ReportServiceTest {
-
     companion object {
         val service = ReportService.getInstance("http://78.181.100.160:17900/")
 
@@ -79,5 +78,4 @@ class ReportServiceTest {
         assertTrue(response.isSuccessful)
         assertEquals(response.body()?.size ?: 0, 5)
     }
-
 }

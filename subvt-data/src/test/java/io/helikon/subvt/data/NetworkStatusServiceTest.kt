@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class NetworkStatusServiceTest {
-
     companion object {
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -84,5 +83,4 @@ class NetworkStatusServiceTest {
         service.subscribe(listOf())
         assertEquals(updateCountLimit, updateCount)
     }
-
 }

@@ -14,7 +14,6 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class ValidatorDetailsServiceTest {
-
     companion object {
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -80,5 +79,4 @@ class ValidatorDetailsServiceTest {
         service.subscribe(listOf(validatorAccountId))
         assertEquals(updateCountLimit, updateCount)
     }
-
 }

@@ -22,28 +22,32 @@ class NetworkStatusService(
         NetworkStatusUpdate::class.java,
     ).type
 
+    override suspend fun processOnSubscribed(json: String) {
+        val update = gson.fromJson<RPCSubscriptionMessage<NetworkStatusUpdate>>(
+            json,
+            responseType,
+        )
+        listener.onSubscribed(
+            this,
+            subscriptionId,
+            update.params.body.status?.bestBlockNumber,
+            update.params.body.status?.finalizedBlockNumber,
+            update.params.body.status!!,
+        )
+    }
+
     override suspend fun processUpdate(json: String) {
         val update = gson.fromJson<RPCSubscriptionMessage<NetworkStatusUpdate>>(
             json,
             responseType,
         )
-        if (update.params.body.status != null) {
-            listener.onSubscribed(
-                this,
-                subscriptionId,
-                update.params.body.status.bestBlockNumber,
-                update.params.body.status.finalizedBlockNumber,
-                update.params.body.status
-            )
-        } else {
-            listener.onUpdateReceived(
-                this,
-                subscriptionId,
-                update.params.body.diff?.bestBlockNumber,
-                update.params.body.diff?.finalizedBlockNumber,
-                update.params.body.diff
-            )
-        }
+        listener.onUpdateReceived(
+            this,
+            subscriptionId,
+            update.params.body.diff?.bestBlockNumber,
+            update.params.body.diff?.finalizedBlockNumber,
+            update.params.body.diff,
+        )
     }
 
 }

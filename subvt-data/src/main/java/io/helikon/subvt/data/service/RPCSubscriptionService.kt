@@ -67,6 +67,7 @@ abstract class RPCSubscriptionService<K, T>(
             session = this
             subscriptionId = subscriptionStatus.subscriptionId
             Logger.d("Subscribed with id: $subscriptionId")
+            var isFirstResponse = true
             while (true) {
                 try {
                     incomingFrame = incoming.receive()
@@ -74,7 +75,12 @@ abstract class RPCSubscriptionService<K, T>(
                         ?: throw SubscriptionException("Cannot read incoming frame: $incomingFrame")
                     val responseJSON = textFrame.readText()
                     try {
-                        processUpdate(responseJSON)
+                        if (isFirstResponse) {
+                            processOnSubscribed(responseJSON)
+                            isFirstResponse = false
+                        } else {
+                            processUpdate(responseJSON)
+                        }
                     } catch (ignored: Throwable) {
                         try {
                             gson.fromJson(
@@ -113,5 +119,6 @@ abstract class RPCSubscriptionService<K, T>(
         )
     }
 
+    abstract suspend fun processOnSubscribed(json: String)
     abstract suspend fun processUpdate(json: String)
 }

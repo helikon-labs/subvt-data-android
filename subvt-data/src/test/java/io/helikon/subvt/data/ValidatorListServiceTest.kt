@@ -13,7 +13,6 @@ import org.junit.Test
 import org.junit.Assert.*
 
 class ValidatorListServiceTest {
-
     companion object {
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -99,5 +98,4 @@ class ValidatorListServiceTest {
             )
         )
     }
-
 }

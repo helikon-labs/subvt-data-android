@@ -15,12 +15,12 @@ interface RPCSubscriptionListener<K, T> {
         subscriptionId: Long,
         bestBlockNumber: Long?,
         finalizedBlockNumber: Long?,
-        update: T?
+        update: T?,
     )
 
     suspend fun onUnsubscribed(
         service: RPCSubscriptionService<K, T>,
-        subscriptionId: Long
+        subscriptionId: Long,
     )
 
 }

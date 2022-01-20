@@ -17,34 +17,37 @@ class ValidatorDetailsService(
     "subscribe_validatorDetails",
     "unsubscribe_validatorDetails"
 ) {
-
     private val responseType = TypeToken.getParameterized(
         RPCSubscriptionMessage::class.java,
         ValidatorDetailsUpdate::class.java,
     ).type
+
+    override suspend fun processOnSubscribed(json: String) {
+        val update = gson.fromJson<RPCSubscriptionMessage<ValidatorDetailsUpdate>>(
+            json,
+            responseType,
+        )
+        listener.onSubscribed(
+            this,
+            subscriptionId,
+            null,
+            update.params.body.finalizedBlockNumber,
+            update.params.body.validatorDetails!!,
+        )
+    }
 
     override suspend fun processUpdate(json: String) {
         val update = gson.fromJson<RPCSubscriptionMessage<ValidatorDetailsUpdate>>(
             json,
             responseType,
         )
-        if (update.params.body.validatorDetails != null) {
-            listener.onSubscribed(
-                this,
-                subscriptionId,
-                null,
-                update.params.body.finalizedBlockNumber,
-                update.params.body.validatorDetails,
-            )
-        } else {
-            listener.onUpdateReceived(
-                this,
-                subscriptionId,
-                null,
-                update.params.body.finalizedBlockNumber,
-                update.params.body.validatorDetailsUpdate,
-            )
-        }
+        listener.onUpdateReceived(
+            this,
+            subscriptionId,
+            null,
+            update.params.body.finalizedBlockNumber,
+            update.params.body.validatorDetailsUpdate,
+        )
     }
 
 }

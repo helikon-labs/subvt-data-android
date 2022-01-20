@@ -9,9 +9,8 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class SS58Test {
-
     @Test
-    fun testSS58() {
+    fun testKusamaSS58() {
         val validatorAccountId =
             "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
         val address = validatorAccountId.hexToAddress(2)
@@ -21,4 +20,14 @@ class SS58Test {
         assertTrue(address.toAccountId().contentEquals(validatorAccountId.hexToBytes()))
     }
 
+    @Test
+    fun testPolkadotSS58() {
+        val validatorAccountId =
+            "0x88c0e442d5642eec6a4eb3967161d2af06a2bcf693357acb312c6df2c776283b"
+        val address = validatorAccountId.hexToAddress(0)
+        assertEquals("146JpAHyC8xvgEpPWny5MGn7Ha2b6g31YiT1WKGTA7j7fAZT", address)
+        assertEquals(address.addressByte().toInt(), 0)
+        assertEquals(address.addressByteOrNull()?.toInt(), 0)
+        assertTrue(address.toAccountId().contentEquals(validatorAccountId.hexToBytes()))
+    }
 }
