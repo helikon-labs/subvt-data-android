@@ -21,6 +21,6 @@ internal class AccountIdDeserializer : JsonDeserializer<AccountId> {
     override fun deserialize(
         json: JsonElement,
         typeOfT: Type,
-        context: JsonDeserializationContext
+        context: JsonDeserializationContext,
     ) = AccountId(json.asString.hexToBytes())
 }

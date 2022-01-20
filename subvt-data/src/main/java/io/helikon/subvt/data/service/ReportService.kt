@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.substrate.EraReport
+import io.helikon.subvt.data.model.substrate.EraValidatorReport
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -25,7 +26,7 @@ interface ReportService {
         @Path("validator_account_id_hex") validatorAccountIdHex: String,
         @Query("start_era_index") startEraIndex: Int,
         @Query("end_era_index") endEraIndex: Int?,
-    ): Response<List<EraReport>>
+    ): Response<List<EraValidatorReport>>
 
     companion object {
         var service: ReportService? = null

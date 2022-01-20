@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 enum class ParaAssignmentKind {
     @SerializedName("Parathread")
     PARATHREAD,
+
     @SerializedName("Parachain")
     PARACHAIN,
 }
