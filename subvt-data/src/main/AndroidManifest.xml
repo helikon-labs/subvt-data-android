@@ -2,5 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="io.helikon.subvt.data">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <application android:usesCleartextTraffic="${cleartextTrafficPermitted}" />
 </manifest>
