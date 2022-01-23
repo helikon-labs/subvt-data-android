@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.*
 
+@ExperimentalCoroutinesApi
 class ReportServiceTest {
     companion object {
         val service = ReportService.getInstance("http://78.181.100.160:17900/")
@@ -21,14 +22,12 @@ class ReportServiceTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testEraReportBadParams() = runTest {
         val response = service.getEraReport(3201, -10)
         assertFalse(response.isSuccessful)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testGetSingleEraReport() = runTest {
         val response = service.getEraReport(3201, null)
@@ -36,7 +35,6 @@ class ReportServiceTest {
         assertEquals(response.body()?.size ?: 0, 1)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testGetMultipleEraReport() = runTest {
         val response = service.getEraReport(3201, 3205)
@@ -44,7 +42,6 @@ class ReportServiceTest {
         assertEquals(response.body()?.size ?: 0, 5)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testEraValidatorReportBadParams() = runTest {
         val response = service.getEraValidatorReport(
@@ -55,7 +52,6 @@ class ReportServiceTest {
         assertFalse(response.isSuccessful)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testGetSingleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(
@@ -67,7 +63,6 @@ class ReportServiceTest {
         assertEquals(response.body()?.size ?: 0, 1)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testGetMultipleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(

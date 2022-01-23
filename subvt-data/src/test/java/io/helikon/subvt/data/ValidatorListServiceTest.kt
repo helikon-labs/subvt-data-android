@@ -12,6 +12,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.*
 
+@ExperimentalCoroutinesApi
 class ValidatorListServiceTest {
     companion object {
         init {
@@ -78,7 +79,6 @@ class ValidatorListServiceTest {
                 && (updateCount >= updateCountLimit)
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testActiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(
@@ -89,7 +89,6 @@ class ValidatorListServiceTest {
         )
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testInactiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(

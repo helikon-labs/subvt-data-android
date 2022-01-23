@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.Assert.*
 
+@ExperimentalCoroutinesApi
 class NetworkStatusServiceTest {
     companion object {
         init {
@@ -23,7 +24,6 @@ class NetworkStatusServiceTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testGetNetworkStatus() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         var updateCount = 0

@@ -13,6 +13,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 import org.junit.Test
 
+@ExperimentalCoroutinesApi
 class ValidatorDetailsServiceTest {
     companion object {
         init {
@@ -23,7 +24,6 @@ class ValidatorDetailsServiceTest {
         }
     }
 
-    @ExperimentalCoroutinesApi
     @Test
     fun testValidatorDetails() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         val validatorAccountId =
