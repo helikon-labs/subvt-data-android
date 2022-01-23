@@ -5,13 +5,16 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.app.Network
+import io.helikon.subvt.data.model.app.NewUserNotificationChannel
 import io.helikon.subvt.data.model.app.User
+import io.helikon.subvt.data.model.app.UserNotificationChannel
 import io.helikon.subvt.data.service.auth.AuthInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 
@@ -21,6 +24,14 @@ interface AppService {
 
     @POST("secure/user")
     suspend fun createUser(): Response<User>
+
+    @POST("secure/user/notification/channel")
+    suspend fun createUserNotificationChannel(
+        @Body channel: NewUserNotificationChannel
+    ): Response<UserNotificationChannel>
+
+    @GET("secure/user/notification/channel")
+    suspend fun getUserNotificationChannels(): Response<List<UserNotificationChannel>>
 
     companion object {
         private var service: AppService? = null

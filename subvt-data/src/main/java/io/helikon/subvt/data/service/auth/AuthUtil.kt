@@ -43,7 +43,7 @@ internal fun generateEncryptionKeyPair() {
             .setKeyValidityStart(notBefore.time)
             .setKeyValidityEnd(notAfter.time)
             .setCertificateSubject(X500Principal("CN=subvt"))
-            .setCertificateSerialNumber(BigInteger(System.nanoTime().toString()))
+            .setCertificateSerialNumber(BigInteger(System.currentTimeMillis().toString()))
             .build()
     )
     spec.generateKeyPair()
