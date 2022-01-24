@@ -3,16 +3,13 @@ package io.helikon.subvt.data.service.auth
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import org.web3j.crypto.ECKeyPair
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.math.BigInteger
-import java.security.KeyFactory
-import java.security.KeyPair
 import java.security.KeyPairGenerator
 import java.security.KeyStore
-import java.security.spec.PKCS8EncodedKeySpec
-import java.security.spec.X509EncodedKeySpec
 import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
@@ -59,7 +56,7 @@ private fun getPublicKeyEncryptedFilePath(context: Context): String {
     return filesDir + File.separator + "subvt_comms_pub"
 }
 
-internal fun storeKeyPair(context: Context, keyPair: KeyPair) {
+internal fun storeKeyPair(context: Context, keyPair: ECKeyPair) {
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
     if (!keyStore.containsAlias(commsKeyAlias)) {
@@ -75,13 +72,13 @@ internal fun storeKeyPair(context: Context, keyPair: KeyPair) {
         FileOutputStream(getPrivateKeyEncryptedFilePath(context)),
         inCipher
     )
-    cipherOutputStream.write(keyPair.private.encoded)
+    cipherOutputStream.write(keyPair.privateKey.toByteArray())
     cipherOutputStream.close()
     cipherOutputStream = CipherOutputStream(
         FileOutputStream(getPublicKeyEncryptedFilePath(context)),
         inCipher
     )
-    cipherOutputStream.write(keyPair.public.encoded)
+    cipherOutputStream.write(keyPair.publicKey.toByteArray())
     cipherOutputStream.close()
 }
 
@@ -101,7 +98,7 @@ private fun getFileBytes(path: String, outCipher: Cipher): ByteArray {
     return byteList.toByteArray()
 }
 
-internal fun getKeyPair(context: Context): KeyPair? {
+internal fun getKeyPair(context: Context): ECKeyPair? {
     if (!File(getPrivateKeyEncryptedFilePath(context)).exists()) {
         return null
     }
@@ -120,12 +117,5 @@ internal fun getKeyPair(context: Context): KeyPair? {
     )
     outCipher2.init(Cipher.DECRYPT_MODE, entry.privateKey)
     val publicKeyBytes = getFileBytes(getPublicKeyEncryptedFilePath(context), outCipher2)
-    val factory = KeyFactory.getInstance("EC", "SC")
-    val privateKey = factory.generatePrivate(
-        PKCS8EncodedKeySpec(privateKeyBytes)
-    )
-    val publicKey = factory.generatePublic(
-        X509EncodedKeySpec(publicKeyBytes)
-    )
-    return KeyPair(publicKey, privateKey)
+    return ECKeyPair(BigInteger(privateKeyBytes), BigInteger(publicKeyBytes))
 }
