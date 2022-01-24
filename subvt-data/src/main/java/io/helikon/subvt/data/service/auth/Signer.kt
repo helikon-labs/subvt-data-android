@@ -10,7 +10,7 @@ import org.spongycastle.crypto.signers.HMacDSAKCalculator
 import java.math.BigInteger
 import java.security.MessageDigest
 
-internal class Signer {
+internal class Signer(privateKey: BigInteger) {
     private val signer: ECDSASigner = ECDSASigner(HMacDSAKCalculator(SHA256Digest()))
     private val halfCurveOrder: BigInteger
     private val curve: ECDomainParameters
@@ -25,13 +25,38 @@ internal class Signer {
             curveParams.n,
             curveParams.h
         )
-    }
-
-    fun init(privateKey: BigInteger) {
         signer.init(
             true,
             ECPrivateKeyParameters(privateKey, curve)
         )
+    }
+
+    private fun Int.toPaddedHexString(): String {
+        return toHexString().run {
+            if (length % 2 != 0) {
+                "0$this"
+            } else {
+                this
+            }
+        }
+    }
+
+    private fun BigInteger.toPaddedHexString(): String {
+        return toString(16).run {
+            if (length % 2 != 0) {
+                "0$this"
+            } else {
+                this
+            }
+        }
+    }
+
+    private fun BigInteger.toDERSlice(): String {
+        var hex = toPaddedHexString()
+        if (hex[0].digitToInt(16) >= 8) {
+            hex = "00$hex"
+        }
+        return hex
     }
 
     fun sign(message: String): String {
@@ -42,16 +67,10 @@ internal class Signer {
         if (s > halfCurveOrder) {
             s = curve.n.subtract(s)
         }
-        var rHex = r.toString(16)
-        if (rHex[0].digitToInt(16) >= 8) {
-            rHex = "00$rHex"
-        }
-        val rLen = Integer.toHexString(rHex.length / 2)
-        var sHex = s.toString(16)
-        if (sHex[0].digitToInt(16) >= 8) {
-            sHex = "00$sHex"
-        }
-        val sLen = Integer.toHexString(sHex.length / 2)
+        val rHex = r.toDERSlice()
+        val rLen = (rHex.length / 2).toPaddedHexString()
+        val sHex = s.toDERSlice()
+        val sLen = (sHex.length / 2).toPaddedHexString()
         val len = (rHex.length / 2 + sHex.length / 2 + 4).toHexString()
         return "30${len}02${rLen}${rHex}02${sLen}${sHex}"
     }

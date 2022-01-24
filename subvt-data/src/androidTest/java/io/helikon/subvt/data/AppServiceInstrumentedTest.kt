@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import io.helikon.subvt.data.model.app.NewUserNotificationChannel
 import io.helikon.subvt.data.model.app.NotificationChannel
 import io.helikon.subvt.data.service.AppService
+import io.helikon.subvt.data.service.auth.clearKeys
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 
@@ -26,10 +27,15 @@ import org.junit.runners.MethodSorters
 class AppServiceInstrumentedTest {
 
     companion object {
+        private val context = InstrumentationRegistry.getInstrumentation().targetContext
         val service = AppService.getInstance(
-            InstrumentationRegistry.getInstrumentation().targetContext,
+            context,
             "http://10.0.2.2:7901/"
         )
+
+        init {
+            clearKeys(context)
+        }
     }
 
     @Test

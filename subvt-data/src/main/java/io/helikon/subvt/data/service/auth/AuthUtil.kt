@@ -18,8 +18,9 @@ import javax.security.auth.x500.X500Principal
 
 const val commsKeyAlias = "SubVTCommsKey"
 
-internal fun ByteArray.toHex(): String = joinToString(separator = "") { byte ->
-    "%02x".format(byte)
+internal fun clearKeys(context: Context) {
+    File(getPrivateKeyEncryptedFilePath(context)).delete()
+    File(getPublicKeyEncryptedFilePath(context)).delete()
 }
 
 internal fun generateEncryptionKeyPair() {
