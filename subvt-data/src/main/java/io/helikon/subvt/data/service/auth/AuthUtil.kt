@@ -79,7 +79,7 @@ private fun getPublicKeyEncryptedFilePath(context: Context): String {
 }
 
 private fun getCipherInstance() = Cipher.getInstance(
-    "RSA/ECB/PKCS1Padding",
+    "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING",
     "AndroidKeyStoreBCWorkaround"
 )
 

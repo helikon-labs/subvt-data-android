@@ -76,8 +76,8 @@ class NetworkStatusServiceTest {
 
         }
         val service = NetworkStatusService(
-            "78.181.100.160",
-            17888,
+            BuildConfig.API_HOST,
+            BuildConfig.NETWORK_STATUS_SERVICE_PORT,
             listener
         )
         service.subscribe(listOf())

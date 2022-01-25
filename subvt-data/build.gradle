@@ -3,6 +3,10 @@ plugins {
     id "kotlin-android"
 }
 
+def propertiesFile = rootProject.file("subvt.properties")
+def properties = new Properties()
+properties.load(new FileInputStream(propertiesFile))
+
 android {
     compileSdk 30
 
@@ -13,6 +17,16 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "API_HOST", properties['API_HOST'])
+        // RPC services
+        buildConfigField("int", "NETWORK_STATUS_SERVICE_PORT", properties['NETWORK_STATUS_SERVICE_PORT'])
+        buildConfigField("int", "ACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties['ACTIVE_VALIDATOR_LIST_SERVICE_PORT'])
+        buildConfigField("int", "INACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties['INACTIVE_VALIDATOR_LIST_SERVICE_PORT'])
+        buildConfigField("int", "VALIDATOR_DETAILS_SERVICE_PORT", properties['VALIDATOR_DETAILS_SERVICE_PORT'])
+        // REST services
+        buildConfigField("int", "REPORT_SERVICE_PORT", properties['REPORT_SERVICE_PORT'])
+        buildConfigField("int", "APP_SERVICE_PORT", properties['APP_SERVICE_PORT'])
     }
 
     buildTypes {

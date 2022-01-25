@@ -12,7 +12,10 @@ import org.junit.Assert.*
 @ExperimentalCoroutinesApi
 class ReportServiceTest {
     companion object {
-        val service = ReportService.getInstance("http://78.181.100.160:17900/")
+
+        val service = ReportService.getInstance(
+            "http://${BuildConfig.API_HOST}:${BuildConfig.REPORT_SERVICE_PORT}/"
+        )
 
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()

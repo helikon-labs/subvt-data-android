@@ -30,7 +30,7 @@ class AppServiceInstrumentedTest {
         private val context = InstrumentationRegistry.getInstrumentation().targetContext
         val service = AppService.getInstance(
             context,
-            "http://78.181.100.160:17901/"
+            "http://${BuildConfig.API_HOST}:${BuildConfig.APP_SERVICE_PORT}/"
         )
 
         init {

@@ -72,8 +72,8 @@ class ValidatorDetailsServiceTest {
             }
         }
         val service = ValidatorDetailsService(
-            "78.181.100.160",
-            17891,
+            BuildConfig.API_HOST,
+            BuildConfig.VALIDATOR_DETAILS_SERVICE_PORT,
             listener,
         )
         service.subscribe(listOf(validatorAccountId))
