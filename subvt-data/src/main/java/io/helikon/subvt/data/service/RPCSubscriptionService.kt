@@ -42,6 +42,8 @@ abstract class RPCSubscriptionService<K, T>(
         .registerTypeAdapter(RewardDestination::class.java, RewardDestinationDeserializer())
         .create()
 
+
+
     suspend fun subscribe(params: List<Any>) {
         if (session != null) {
             return

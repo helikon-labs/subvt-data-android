@@ -23,7 +23,7 @@ internal data class RPCSubscriptionMessage<T>(
 
 internal data class RPCSubscriptionMessageParams<T>(
     @SerializedName("subscription")
-    val subscription_id: Long,
+    val subscriptionId: Long,
     @SerializedName("result")
     val body: T,
 )

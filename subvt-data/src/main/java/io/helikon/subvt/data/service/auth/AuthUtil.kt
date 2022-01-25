@@ -78,6 +78,11 @@ private fun getPublicKeyEncryptedFilePath(context: Context): String {
     return filesDir + File.separator + "subvt_comms_pub"
 }
 
+private fun getCipherInstance() = Cipher.getInstance(
+    "RSA/ECB/PKCS1Padding",
+    "AndroidKeyStoreBCWorkaround"
+)
+
 internal fun storeKeyPair(context: Context, keyPair: ECKeyPair) {
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
@@ -85,10 +90,7 @@ internal fun storeKeyPair(context: Context, keyPair: ECKeyPair) {
         generateEncryptionKeyPair()
     }
     val entry = keyStore.getEntry(commsKeyAlias, null) as KeyStore.PrivateKeyEntry
-    val inCipher = Cipher.getInstance(
-        "RSA/ECB/PKCS1Padding",
-        "AndroidKeyStoreBCWorkaround"
-    )
+    val inCipher = getCipherInstance()
     inCipher.init(Cipher.ENCRYPT_MODE, entry.certificate.publicKey)
     var cipherOutputStream = CipherOutputStream(
         FileOutputStream(getPrivateKeyEncryptedFilePath(context)),
@@ -127,16 +129,10 @@ internal fun getKeyPair(context: Context): ECKeyPair? {
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
     val entry = keyStore.getEntry(commsKeyAlias, null) as KeyStore.PrivateKeyEntry
-    val outCipher1 = Cipher.getInstance(
-        "RSA/ECB/PKCS1Padding",
-        "AndroidKeyStoreBCWorkaround"
-    )
+    val outCipher1 = getCipherInstance()
     outCipher1.init(Cipher.DECRYPT_MODE, entry.privateKey)
     val privateKeyBytes = getFileBytes(getPrivateKeyEncryptedFilePath(context), outCipher1)
-    val outCipher2 = Cipher.getInstance(
-        "RSA/ECB/PKCS1Padding",
-        "AndroidKeyStoreBCWorkaround"
-    )
+    val outCipher2 = getCipherInstance()
     outCipher2.init(Cipher.DECRYPT_MODE, entry.privateKey)
     val publicKeyBytes = getFileBytes(getPublicKeyEncryptedFilePath(context), outCipher2)
     return ECKeyPair(BigInteger(privateKeyBytes), BigInteger(publicKeyBytes))
