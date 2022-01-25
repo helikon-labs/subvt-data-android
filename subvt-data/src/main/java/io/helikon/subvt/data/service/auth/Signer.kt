@@ -31,26 +31,6 @@ internal class Signer(privateKey: BigInteger) {
         )
     }
 
-    private fun Int.toPaddedHexString(): String {
-        return toHexString().run {
-            if (length % 2 != 0) {
-                "0$this"
-            } else {
-                this
-            }
-        }
-    }
-
-    private fun BigInteger.toPaddedHexString(): String {
-        return toString(16).run {
-            if (length % 2 != 0) {
-                "0$this"
-            } else {
-                this
-            }
-        }
-    }
-
     private fun BigInteger.toDERSlice(): String {
         var hex = toPaddedHexString()
         if (hex[0].digitToInt(16) >= 8) {

@@ -1,4 +1,4 @@
-name: Gradle Lint and Test
+name: Lint & Unit/Instrumentation Tests
 
 on:
   push:
@@ -30,6 +30,28 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Gradle Lint
-        run: ./gradlew lint
+        run: ./gradlew lintDebug
       - name: Gradle Test
         run: ./gradlew test
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: unit_test_report
+          path: subvt-data/build/reports/tests/testDebugUnitTest/
+  instrumentation-test:
+    name: Instrumentation Test
+    needs: [gradle-lint-test]
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run espresso tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 24
+          script: ./gradlew connectedCheck
+      - name: Upload test report
+        uses: actions/upload-artifact@v2
+        with:
+          name: instrumentation_test_report
+          path: subvt-data/build/reports/androidTests/connected/

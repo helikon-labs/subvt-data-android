@@ -2,7 +2,7 @@ package io.helikon.subvt.data.model.app
 
 import com.google.gson.annotations.SerializedName
 
-enum class NotificationChannel {
+enum class NotificationChannelCode {
     @SerializedName("apns")
     APNS,
     @SerializedName("fcm")
@@ -16,3 +16,5 @@ enum class NotificationChannel {
     @SerializedName("sms")
     SMS,
 }
+
+data class NotificationChannel(val code: NotificationChannelCode)

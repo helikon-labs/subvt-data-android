@@ -36,7 +36,7 @@ internal class AuthInterceptor(context: Context): Interceptor {
             true -> "03"
             false -> "02"
         }
-        val pubKeyHex = pubKey.toString(16)
+        val pubKeyHex = pubKey.toPaddedHexString()
         val pubKeyX = pubKeyHex.substring(0, 64)
         return pubKeyYPrefix + pubKeyX
     }

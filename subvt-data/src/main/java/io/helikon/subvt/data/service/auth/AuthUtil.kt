@@ -3,6 +3,7 @@ package io.helikon.subvt.data.service.auth
 import android.content.Context
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import okhttp3.internal.toHexString
 import org.web3j.crypto.ECKeyPair
 import java.io.File
 import java.io.FileInputStream
@@ -17,6 +18,26 @@ import javax.crypto.CipherOutputStream
 import javax.security.auth.x500.X500Principal
 
 const val commsKeyAlias = "SubVTCommsKey"
+
+internal fun Int.toPaddedHexString(): String {
+    return toHexString().run {
+        if (length % 2 != 0) {
+            "0$this"
+        } else {
+            this
+        }
+    }
+}
+
+internal fun BigInteger.toPaddedHexString(): String {
+    return toString(16).run {
+        if (length % 2 != 0) {
+            "0$this"
+        } else {
+            this
+        }
+    }
+}
 
 internal fun clearKeys(context: Context) {
     File(getPrivateKeyEncryptedFilePath(context)).delete()
