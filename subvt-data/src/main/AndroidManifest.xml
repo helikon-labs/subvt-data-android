@@ -3,5 +3,7 @@
     package="io.helikon.subvt.data">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <application android:usesCleartextTraffic="${cleartextTrafficPermitted}" />
+    <application
+        android:allowBackup="false"
+        android:usesCleartextTraffic="${cleartextTrafficPermitted}" />
 </manifest>

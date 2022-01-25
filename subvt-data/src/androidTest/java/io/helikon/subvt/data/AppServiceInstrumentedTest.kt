@@ -176,7 +176,7 @@ class AppServiceInstrumentedTest {
             setOf(channelId),
             listOf(
                 NewUserNotificationRuleParameter(
-                    notificationType.param_types[0].id,
+                    notificationType.paramTypes[0].id,
                     "12345"
                 )
             ),
