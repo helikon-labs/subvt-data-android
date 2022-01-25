@@ -16,6 +16,7 @@ import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.features.websocket.*
 import io.ktor.http.cio.websocket.*
+import kotlinx.coroutines.channels.ReceiveChannel
 
 abstract class RPCSubscriptionService<K, T>(
     private val host: String,
@@ -24,6 +25,7 @@ abstract class RPCSubscriptionService<K, T>(
     private var subscribeMethod: String,
     private var unsubscribeMethod: String,
 ) {
+    private var rpcId: Long = 0
 
     private val client: HttpClient = HttpClient {
         install(WebSockets) {
@@ -42,26 +44,66 @@ abstract class RPCSubscriptionService<K, T>(
         .registerTypeAdapter(RewardDestination::class.java, RewardDestinationDeserializer())
         .create()
 
+    private suspend fun readNextTextFrame(incoming: ReceiveChannel<Frame>): Frame.Text {
+        val incomingFrame = incoming.receive()
+        return incomingFrame as? Frame.Text
+            ?: throw SubscriptionException("Cannot read incoming frame: $incomingFrame")
+    }
 
+    private suspend fun beginIncomingProcessing(incoming: ReceiveChannel<Frame>) {
+        var isFirstResponse = true
+        while (true) {
+            try {
+                val responseJSON = readNextTextFrame(incoming).readText()
+                try {
+                    if (isFirstResponse) {
+                        processOnSubscribed(responseJSON)
+                        isFirstResponse = false
+                    } else {
+                        processUpdate(responseJSON)
+                    }
+                } catch (ignored: Throwable) {
+                    try {
+                        gson.fromJson(
+                            responseJSON,
+                            RPCUnsubscribeStatus::class.java,
+                        )
+                        Logger.d(
+                            "Unsubscribed subscription id: $subscriptionId"
+                        )
+                        listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
+                        session = null
+                        subscriptionId = 0
+                        break
+                    } catch (ignored: Throwable) {
+                        Logger.e("Unable to parse response JSON: $responseJSON")
+                        break
+                    }
+                }
+            } catch (t: Throwable) {
+                Logger.e("Error while receiving update: $t")
+                break
+            }
+        }
+    }
 
     suspend fun subscribe(params: List<Any>) {
         if (session != null) {
             return
         }
+        rpcId = (0..Int.MAX_VALUE).random().toLong()
         client.ws(host = host, port = port) {
             Logger.d("WebSockets session initialized.")
             send(
                 gson.toJson(
                     RPCRequest(
-                        id = 5,
+                        id = rpcId,
                         method = subscribeMethod,
                         params = params,
                     )
                 )
             )
-            var incomingFrame = incoming.receive()
-            var textFrame = incomingFrame as? Frame.Text
-                ?: throw SubscriptionException("Cannot read incoming frame: $incomingFrame")
+            val textFrame = readNextTextFrame(incoming)
             val subscriptionStatus = gson.fromJson(
                 textFrame.readText(),
                 RPCSubscribeStatus::class.java,
@@ -72,43 +114,7 @@ abstract class RPCSubscriptionService<K, T>(
             session = this
             subscriptionId = subscriptionStatus.subscriptionId
             Logger.d("Subscribed with id: $subscriptionId")
-            var isFirstResponse = true
-            while (true) {
-                try {
-                    incomingFrame = incoming.receive()
-                    textFrame = incomingFrame as? Frame.Text
-                        ?: throw SubscriptionException("Cannot read incoming frame: $incomingFrame")
-                    val responseJSON = textFrame.readText()
-                    try {
-                        if (isFirstResponse) {
-                            processOnSubscribed(responseJSON)
-                            isFirstResponse = false
-                        } else {
-                            processUpdate(responseJSON)
-                        }
-                    } catch (ignored: Throwable) {
-                        try {
-                            gson.fromJson(
-                                responseJSON,
-                                RPCUnsubscribeStatus::class.java,
-                            )
-                            Logger.d(
-                                "Unsubscribed subscription id: $subscriptionId"
-                            )
-                            listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
-                            session = null
-                            subscriptionId = 0
-                            break
-                        } catch (ignored: Throwable) {
-                            Logger.e("Unable to parse response JSON: $responseJSON")
-                            break
-                        }
-                    }
-                } catch (t: Throwable) {
-                    Logger.e("Error while receiving update: $t")
-                    break
-                }
-            }
+            beginIncomingProcessing(incoming)
         }
     }
 
@@ -116,7 +122,7 @@ abstract class RPCSubscriptionService<K, T>(
         session?.send(
             gson.toJson(
                 RPCRequest(
-                    id = 5,
+                    id = rpcId,
                     method = unsubscribeMethod,
                     params = listOf(subscriptionId),
                 )
