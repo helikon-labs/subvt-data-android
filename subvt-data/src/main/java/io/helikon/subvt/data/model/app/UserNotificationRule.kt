@@ -1,5 +1,8 @@
 package io.helikon.subvt.data.model.app
 
+/**
+ * Used when creating a new notification rule for the user.
+ */
 data class CreateUserNotificationRuleRequest(
     val notificationTypeCode: String,
     val name: String?,
@@ -13,6 +16,9 @@ data class CreateUserNotificationRuleRequest(
     val notes: String?,
 )
 
+/**
+ * Actual parameter for a rule - returned by the GET rule service.
+ */
 data class UserNotificationRuleParameter(
     val userNotificationRuleId: Long,
     val parameterTypeId: Long,
@@ -21,11 +27,17 @@ data class UserNotificationRuleParameter(
     val value: String,
 )
 
+/**
+ * Used in the request to create a new notification rule for the user.
+ */
 data class NewUserNotificationRuleParameter(
     val parameterTypeId: Long,
     val value: String,
 )
 
+/**
+ * Returned by the GETter service for the user's notification rules.
+ */
 data class UserNotificationRule(
     val id: Long,
     val userId: Long,

@@ -4,6 +4,9 @@ import io.helikon.subvt.data.model.substrate.Epoch
 import io.helikon.subvt.data.model.substrate.Era
 import java.math.BigInteger
 
+/**
+ * Returned by the network status service right after the initial subscription.
+ */
 data class NetworkStatus(
     val finalizedBlockNumber: Long,
     val finalizedBlockHash: String,
@@ -23,6 +26,10 @@ data class NetworkStatus(
     val eraRewardPoints: Long,
 )
 
+/**
+ * Subsequent data from the network status service, reflecting the changes
+ * to the previous state.
+ */
 data class NetworkStatusDiff(
     val finalizedBlockNumber: Long?,
     val finalizedBlockHash: String?,

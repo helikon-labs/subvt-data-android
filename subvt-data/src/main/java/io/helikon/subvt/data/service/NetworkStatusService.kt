@@ -6,6 +6,9 @@ import io.helikon.subvt.data.model.NetworkStatusDiff
 import io.helikon.subvt.data.model.NetworkStatusUpdate
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 
+/**
+ * Network status RPC service client.
+ */
 class NetworkStatusService(
     host: String,
     port: Int,

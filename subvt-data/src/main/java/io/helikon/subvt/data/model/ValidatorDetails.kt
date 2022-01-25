@@ -2,6 +2,9 @@ package io.helikon.subvt.data.model
 
 import io.helikon.subvt.data.model.substrate.*
 
+/**
+ * Returned by the validatod details service right after the initial subscription.
+ */
 data class ValidatorDetails(
     val account: Account,
     val controllerAccountId: AccountId,
@@ -31,6 +34,10 @@ data class ValidatorDetails(
     val onekvIsValid: Boolean?,
 )
 
+/**
+ * Subsequent data from the validator details service, reflecting the changes
+ * to the previous state.
+ */
 data class ValidatorDetailsDiff(
     val account: Account,
     val controllerAccountId: AccountId?,

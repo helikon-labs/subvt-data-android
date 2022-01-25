@@ -15,6 +15,9 @@ enum class NotificationParamDataType {
     BOOLEAN
 }
 
+/**
+ * Notification parameter type. These types are predefined in the SubVT database.
+ */
 data class NotificationParamType(
     val id: Long,
     val notificationTypeCode: String,

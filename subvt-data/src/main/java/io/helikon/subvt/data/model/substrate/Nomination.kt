@@ -2,6 +2,9 @@ package io.helikon.subvt.data.model.substrate
 
 import java.math.BigInteger
 
+/**
+ * Nominator, stake an nominees.
+ */
 data class Nomination(
     val stashAccountId: AccountId,
     val submissionEraIndex: Int,

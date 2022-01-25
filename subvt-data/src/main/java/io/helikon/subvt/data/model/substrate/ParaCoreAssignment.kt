@@ -10,6 +10,9 @@ enum class ParaAssignmentKind {
     PARACHAIN,
 }
 
+/**
+ * Parachain or paravalidator assignment.
+ */
 data class ParaCoreAssignment(
     val coreIndex: Int,
     val paraId: Int,

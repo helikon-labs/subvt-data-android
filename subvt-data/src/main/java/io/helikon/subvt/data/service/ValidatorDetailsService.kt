@@ -6,6 +6,9 @@ import io.helikon.subvt.data.model.ValidatorDetailsDiff
 import io.helikon.subvt.data.model.ValidatorDetailsUpdate
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 
+/**
+ * Validator details RPC service client.
+ */
 class ValidatorDetailsService(
     host: String,
     port: Int,

@@ -18,6 +18,10 @@ import io.ktor.client.features.websocket.*
 import io.ktor.http.cio.websocket.*
 import kotlinx.coroutines.channels.ReceiveChannel
 
+/**
+ * Abstract definitions for the RPC subscription services (network status, validator details,
+ * active and inactive validator list).
+ */
 abstract class RPCSubscriptionService<K, T>(
     private val host: String,
     private val port: Int,

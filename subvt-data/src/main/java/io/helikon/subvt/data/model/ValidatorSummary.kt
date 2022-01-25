@@ -3,6 +3,9 @@ package io.helikon.subvt.data.model
 import com.google.gson.annotations.SerializedName
 import io.helikon.subvt.data.model.substrate.*
 
+/**
+ * A validator represented by the active or inactive validator details service.
+ */
 data class ValidatorSummary(
     val accountId: AccountId,
     val controllerAccountId: AccountId?,
@@ -53,6 +56,10 @@ data class ValidatorSummaryDiff(
     val validatorStake: ValidatorStakeSummary?,
 )
 
+/**
+ * Validator list service response - contains new, changes and removed validator info.
+ * Will only contain inserts in the first response.
+ */
 data class ValidatorListUpdate(
     val finalizedBlockNumber: Long?,
     val insert: List<ValidatorSummary>,

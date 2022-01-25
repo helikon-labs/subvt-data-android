@@ -17,4 +17,7 @@ enum class NotificationChannelCode {
     SMS,
 }
 
+/**
+ * SubVT user notification channel.
+ */
 data class NotificationChannel(val code: NotificationChannelCode)

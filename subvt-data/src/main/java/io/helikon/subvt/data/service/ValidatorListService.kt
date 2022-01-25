@@ -4,6 +4,9 @@ import com.google.gson.reflect.TypeToken
 import io.helikon.subvt.data.model.ValidatorListUpdate
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 
+/**
+ * Validator list RPC service client.
+ */
 class ValidatorListService(
     host: String,
     port: Int,

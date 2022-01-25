@@ -1,3 +1,6 @@
+/**
+ * Account id related classes and functions.
+ */
 package io.helikon.subvt.data.model.substrate
 
 import com.google.gson.*

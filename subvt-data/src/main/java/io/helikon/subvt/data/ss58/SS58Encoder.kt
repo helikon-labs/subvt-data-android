@@ -1,13 +1,20 @@
+/**
+ * SS58-related functions taken mostly from the Fearless Utils for Android.
+ * https://github.com/soramitsu/fearless-utils-Android
+ *
+ * Changed/simplified where necessary.
+ */
 package io.helikon.subvt.data.ss58
 
 import io.helikon.subvt.data.encrypt.Base58
-import io.helikon.subvt.data.encrypt.json.copyBytes
 import io.helikon.subvt.data.exception.AddressFormatException
 import io.helikon.subvt.data.hash.Hasher.blake2b256
 import io.helikon.subvt.data.hash.Hasher.blake2b512
 import java.lang.Exception
 import kotlin.experimental.and
 import kotlin.experimental.or
+
+internal fun ByteArray.copyBytes(from: Int, size: Int) = copyOfRange(from, from + size)
 
 internal object SS58Encoder {
     private val PREFIX = "SS58PRE".toByteArray(Charsets.UTF_8)

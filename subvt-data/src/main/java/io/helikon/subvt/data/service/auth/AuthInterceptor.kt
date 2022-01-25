@@ -10,6 +10,10 @@ import org.web3j.crypto.Keys
 import java.io.IOException
 import java.math.BigInteger
 
+/**
+ * OkHTTP authentication interceptor.
+ * Adds public key, nonce and ECDSA signature headers where necessary.
+ */
 internal class AuthInterceptor(context: Context): Interceptor {
     private val keyPair: ECKeyPair
     private val signer: Signer

@@ -1,5 +1,8 @@
 package io.helikon.subvt.data.model.substrate
 
+/**
+ * A Substrate account as represented in the SubVT system.
+ */
 data class Account(
     val id: AccountId,
     val identity: IdentityRegistration?,

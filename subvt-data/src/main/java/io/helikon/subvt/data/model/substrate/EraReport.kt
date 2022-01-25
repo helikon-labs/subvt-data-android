@@ -2,6 +2,9 @@ package io.helikon.subvt.data.model.substrate
 
 import java.math.BigInteger
 
+/**
+ * Report for a single era.
+ */
 data class EraReport(
     val era: Era,
     val minimumStake: BigInteger?,

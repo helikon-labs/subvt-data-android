@@ -1,3 +1,6 @@
+/**
+ * Authentication-related utility functions.
+ */
 package io.helikon.subvt.data.service.auth
 
 import android.content.Context

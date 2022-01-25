@@ -6,6 +6,9 @@ import com.google.gson.JsonElement
 import io.helikon.subvt.data.ss58.SS58Encoder.hexToBytes
 import java.lang.reflect.Type
 
+/**
+ * Reward destination for a staking account.
+ */
 sealed class RewardDestination {
     object Staked : RewardDestination()
     object Stash : RewardDestination()

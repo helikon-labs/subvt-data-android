@@ -16,6 +16,9 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
+/**
+ * SubVT application service client.
+ */
 interface AppService {
     @GET("network")
     suspend fun getNetworks(): Response<List<Network>>

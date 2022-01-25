@@ -1,3 +1,6 @@
+/**
+ * Classes used in JSONRPC service communications.
+ */
 package io.helikon.subvt.data.model.rpc
 
 import com.google.gson.annotations.SerializedName

@@ -2,6 +2,9 @@ package io.helikon.subvt.data.model.substrate
 
 import java.math.BigInteger
 
+/**
+ * Report for a single era-validator.
+ */
 data class EraValidatorReport(
     val era: Era,
     val isActive: Boolean?,

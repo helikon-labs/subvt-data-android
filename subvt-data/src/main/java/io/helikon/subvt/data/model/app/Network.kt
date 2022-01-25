@@ -2,6 +2,9 @@ package io.helikon.subvt.data.model.app
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * SubVT network model.
+ */
 data class Network(
     val id: Long,
     val hash: String,

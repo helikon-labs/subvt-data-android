@@ -10,6 +10,10 @@ import org.spongycastle.crypto.signers.HMacDSAKCalculator
 import java.math.BigInteger
 import java.security.MessageDigest
 
+/**
+ * ECDSA over secp256k1 signer.
+ * Takes the private key as the constructor parameter.
+ */
 internal class Signer(privateKey: BigInteger) {
     private val signer: ECDSASigner = ECDSASigner(HMacDSAKCalculator(SHA256Digest()))
     private val halfCurveOrder: BigInteger
@@ -39,6 +43,9 @@ internal class Signer(privateKey: BigInteger) {
         return hex
     }
 
+    /**
+     * Returns the DER-encoded signature.
+     */
     fun sign(message: String): String {
         val hash = messageDigest.digest(message.toByteArray())
         val signature = signer.generateSignature(hash)
