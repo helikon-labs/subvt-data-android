@@ -14,7 +14,7 @@ android {
         minSdk 24
         targetSdk 30
         versionCode 1
-        versionName "0.1.0"
+        versionName "0.1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -32,12 +32,12 @@ android {
     buildTypes {
         debug {
             manifestPlaceholders.cleartextTrafficPermitted = "true"
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
         release {
             manifestPlaceholders.cleartextTrafficPermitted = "true"
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }

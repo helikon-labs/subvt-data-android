@@ -23,24 +23,29 @@ information.
 
 ## Installation
 
-1. Add the JitPack repository in your root-level `build.gradle` file:
+1. Add the JitPack repository in your root-level `settings.gradle` file:
 
     ```gradle
-    buildscript {
-        // ...
-   
+    dependencyResolutionManagement {
+        repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
         repositories {
-            // ...
+            google()
+            mavenCentral()
+            jcenter() // Warning: this repository is going to shut down soon
+            // add the JitPack repository here
             maven { url 'https://jitpack.io' }
         }
     }
     ```
 
-2. Add the dependency:
+2. Add the dependency for this library and Retrofit 2:
 
     ```gradle
     dependencies {
-        implementation 'com.github.helikon-labs:subvt-data-android:0.1.0'
+        // ...
+        implementation 'com.github.helikon-labs:subvt-data-android:0.1.1'
+        implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+        // ...
     }
     ```
 
