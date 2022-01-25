@@ -1,4 +1,4 @@
-name: Lint & Unit/Instrumentation Tests
+name: Lint, Unit & Instrumented Tests
 
 on:
   push:
