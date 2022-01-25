@@ -4,6 +4,7 @@
 
 ![](https://github.com/helikon-labs/subvt-data-android/actions/workflows/gradle_lint_and_test.yml/badge.svg)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=helikon-labs_subvt-data-android&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=helikon-labs_subvt-data-android)
+[![Release](https://jitpack.io/v/helikon-labs/subvt-data-android.svg)](https://jitpack.io/#helikon-labs/subvt-data-android)
 
 # SubVT Data Access for Android
 
