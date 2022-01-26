@@ -2,6 +2,7 @@ package io.helikon.subvt.data
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import io.helikon.subvt.data.exception.apiException
 import io.helikon.subvt.data.model.app.*
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.service.AppService
@@ -28,7 +29,7 @@ class AppServiceInstrumentedTest {
 
     companion object {
         private val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val service = AppService.getInstance(
+        private val service = AppService(
             context,
             "http://${BuildConfig.API_HOST}:${BuildConfig.APP_SERVICE_PORT}/"
         )
@@ -40,38 +41,38 @@ class AppServiceInstrumentedTest {
 
     @Test
     fun test01GetNetworks() = runTest {
-        val response = service.getNetworks()
-        assertTrue(response.isSuccessful)
-        assertTrue(response.body()?.size ?: 0 > 0)
+        val result = service.getNetworks()
+        assertTrue(result.isSuccess)
+        assertTrue(result.getOrNull()?.size ?: 0 > 0)
     }
 
     @Test
     fun test02GetNotificationChannels() = runTest {
         val response = service.getNotificationChannels()
-        assertTrue(response.isSuccessful)
-        assertTrue(response.body()?.size ?: 0 > 0)
+        assertTrue(response.isSuccess)
+        assertTrue(response.getOrNull()?.size ?: 0 > 0)
     }
 
     @Test
     fun test03GetNotificationTypes() = runTest {
         val response = service.getNotificationTypes()
-        assertTrue(response.isSuccessful)
-        assertTrue(response.body()?.size ?: 0 > 0)
+        assertTrue(response.isSuccess)
+        assertTrue(response.getOrNull()?.size ?: 0 > 0)
     }
 
     @Test
     fun test04CreateUser() = runTest {
         val response = service.createUser()
-        assertTrue(response.isSuccessful)
-        assertTrue(response.body()?.id ?: 0 > 0)
-        assertTrue(response.body()?.publicKeyHex?.length ?: 0 > 0)
+        assertTrue(response.isSuccess)
+        assertTrue(response.getOrNull()?.id ?: 0 > 0)
+        assertTrue(response.getOrNull()?.publicKeyHex?.length ?: 0 > 0)
     }
 
     @Test
     fun test05GetUserNotificationChannels() = runTest {
         val listResponse = service.getUserNotificationChannels()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(0, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(0, listResponse.getOrNull()!!.size)
     }
 
     @Test
@@ -81,74 +82,74 @@ class AppServiceInstrumentedTest {
             "+905321234567"
         )
         val createResponse = service.createUserNotificationChannel(gsmChannel)
-        assertTrue(createResponse.isSuccessful)
-        assertEquals(createResponse.body()?.target, gsmChannel.target)
+        assertTrue(createResponse.isSuccess)
+        assertEquals(createResponse.getOrNull()?.target, gsmChannel.target)
         val listResponse = service.getUserNotificationChannels()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(1, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(1, listResponse.getOrNull()!!.size)
     }
 
     @Test
     fun test07DeleteUserNotificationChannel() = runTest {
-        val id = service.getUserNotificationChannels().body()!![0].id
+        val id = service.getUserNotificationChannels().getOrNull()!![0].id
         val deleteResponse = service.deleteUserNotificationChannel(id)
-        assertTrue(deleteResponse.isSuccessful)
+        assertTrue(deleteResponse.isSuccess)
         val listResponse = service.getUserNotificationChannels()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(0, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(0, listResponse.getOrNull()!!.size)
     }
 
     @Test
     fun test08DeleteNonExistingUserNotificationChannel() = runTest {
         val deleteResponse = service.deleteUserNotificationChannel(157)
-        assertEquals(404, deleteResponse.code())
-        assertFalse(deleteResponse.isSuccessful)
+        assertEquals(404, deleteResponse.apiException()?.code ?: 0)
+        assertFalse(deleteResponse.isSuccess)
     }
 
     @Test
     fun test09GetUserValidators() = runTest {
         val listResponse = service.getUserValidators()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(0, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(0, listResponse.getOrNull()!!.size)
     }
 
     @Test
     fun test10CreateUserValidator() = runTest {
-        val networkId = service.getNetworks().body()!![0].id
+        val networkId = service.getNetworks().getOrNull()!![0].id
         val userValidator = NewUserValidator(
             networkId,
             AccountId("1ead682c90db49f1145129109b759a3b80fef1aea0914982bd76ecd365bfa629"),
         )
         val createResponse = service.createUserValidator(userValidator)
-        assertTrue(createResponse.isSuccessful)
-        assertEquals(createResponse.body()?.validatorAccountId, userValidator.validatorAccountId)
+        assertTrue(createResponse.isSuccess)
+        assertEquals(createResponse.getOrNull()?.validatorAccountId, userValidator.validatorAccountId)
         val listResponse = service.getUserValidators()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(1, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(1, listResponse.getOrNull()!!.size)
     }
 
     @Test
     fun test11DeleteUserValidator() = runTest {
-        val id = service.getUserValidators().body()!![0].id
+        val id = service.getUserValidators().getOrNull()!![0].id
         val deleteResponse = service.deleteUserValidator(id)
-        assertTrue(deleteResponse.isSuccessful)
+        assertTrue(deleteResponse.isSuccess)
         val listResponse = service.getUserValidators()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(0, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(0, listResponse.getOrNull()!!.size)
     }
 
     @Test
     fun test12DeleteNonExistingUserValidator() = runTest {
         val deleteResponse = service.deleteUserValidator(157)
-        assertEquals(404, deleteResponse.code())
-        assertFalse(deleteResponse.isSuccessful)
+        assertEquals(404, deleteResponse.apiException()?.code ?: 0)
+        assertFalse(deleteResponse.isSuccess)
     }
 
     @Test
     fun test13GetUserNotificationRules() = runTest {
         val listResponse = service.getUserNotificationRules()
-        assertTrue(listResponse.isSuccessful)
-        assertEquals(0, listResponse.body()!!.size)
+        assertTrue(listResponse.isSuccess)
+        assertEquals(0, listResponse.getOrNull()!!.size)
     }
 
     @Test
@@ -159,11 +160,11 @@ class AppServiceInstrumentedTest {
             "+905329999999"
         )
         service.createUserNotificationChannel(gsmChannel)
-        val notificationType = service.getNotificationTypes().body()!!
+        val notificationType = service.getNotificationTypes().getOrNull()!!
             .find {
                 it.code == "chain_validator_new_nomination"
             }!!
-        val channelId = service.getUserNotificationChannels().body()!!.last().id
+        val channelId = service.getUserNotificationChannels().getOrNull()!!.last().id
         // create rule
         val request = CreateUserNotificationRuleRequest(
             notificationType.code,
@@ -183,21 +184,21 @@ class AppServiceInstrumentedTest {
             "Notes"
         )
         val response = service.createUserNotificationRule(request)
-        assertTrue(response.isSuccessful)
-        assertEquals(response.body()?.notificationType?.code ?: "", notificationType.code)
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.notificationType?.code ?: "", notificationType.code)
     }
 
     @Test
     fun test15DeleteUserNotificationRule() = runTest {
-        val id = service.getUserNotificationChannels().body()!![0].id
+        val id = service.getUserNotificationChannels().getOrNull()!![0].id
         val deleteResponse = service.deleteUserNotificationChannel(id)
-        assertTrue(deleteResponse.isSuccessful)
+        assertTrue(deleteResponse.isSuccess)
     }
 
     @Test
     fun test16DeleteNonExistingUserNotificationRule() = runTest {
         val deleteResponse = service.deleteUserNotificationRule(157)
-        assertEquals(404, deleteResponse.code())
-        assertFalse(deleteResponse.isSuccessful)
+        assertEquals(404, deleteResponse.apiException()?.code ?: 0)
+        assertFalse(deleteResponse.isSuccess)
     }
 }

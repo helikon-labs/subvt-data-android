@@ -13,7 +13,7 @@ import org.junit.Assert.*
 class ReportServiceTest {
     companion object {
 
-        val service = ReportService.getInstance(
+        val service = ReportService(
             "http://${BuildConfig.API_HOST}:${BuildConfig.REPORT_SERVICE_PORT}/"
         )
 
@@ -28,21 +28,21 @@ class ReportServiceTest {
     @Test
     fun testEraReportBadParams() = runTest {
         val response = service.getEraReport(3201, -10)
-        assertFalse(response.isSuccessful)
+        assertFalse(response.isSuccess)
     }
 
     @Test
     fun testGetSingleEraReport() = runTest {
         val response = service.getEraReport(3201, null)
-        assertTrue(response.isSuccessful)
-        assertEquals(response.body()?.size ?: 0, 1)
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 1)
     }
 
     @Test
     fun testGetMultipleEraReport() = runTest {
         val response = service.getEraReport(3201, 3205)
-        assertTrue(response.isSuccessful)
-        assertEquals(response.body()?.size ?: 0, 5)
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 5)
     }
 
     @Test
@@ -52,7 +52,7 @@ class ReportServiceTest {
             -5,
             -2
         )
-        assertFalse(response.isSuccessful)
+        assertFalse(response.isSuccess)
     }
 
     @Test
@@ -62,8 +62,8 @@ class ReportServiceTest {
             3201,
             null
         )
-        assertTrue(response.isSuccessful)
-        assertEquals(response.body()?.size ?: 0, 1)
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 1)
     }
 
     @Test
@@ -73,7 +73,7 @@ class ReportServiceTest {
             3201,
             3205
         )
-        assertTrue(response.isSuccessful)
-        assertEquals(response.body()?.size ?: 0, 5)
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 5)
     }
 }

@@ -1,94 +1,77 @@
 package io.helikon.subvt.data.service
 
 import android.content.Context
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.app.*
-import io.helikon.subvt.data.model.substrate.AccountId
-import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
-import io.helikon.subvt.data.model.substrate.AccountIdSerializer
-import io.helikon.subvt.data.service.auth.AuthInterceptor
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.*
 
 /**
- * SubVT application service client.
+ * Public interface for the application service.
+ * See AppServiceInternal Retrofit interface for the actual interface.
  */
-interface AppService {
-    @GET("network")
-    suspend fun getNetworks(): Response<List<Network>>
+class AppService(context: Context, baseURL: String) {
+    private val service = AppServiceInternal.getInstance(context, baseURL)
 
-    @GET("notification/channel")
-    suspend fun getNotificationChannels(): Response<List<NotificationChannel>>
+    suspend fun getNetworks() =
+        extractResponse(
+            service.getNetworks()
+        )
 
-    @GET("notification/type")
-    suspend fun getNotificationTypes(): Response<List<NotificationType>>
+    suspend fun getNotificationChannels() =
+        extractResponse(
+            service.getNotificationChannels()
+        )
 
-    @POST("secure/user")
-    suspend fun createUser(): Response<User>
+    suspend fun getNotificationTypes() =
+        extractResponse(
+            service.getNotificationTypes()
+        )
 
-    @GET("secure/user/notification/channel")
-    suspend fun getUserNotificationChannels(): Response<List<UserNotificationChannel>>
+    suspend fun createUser() =
+        extractResponse(
+            service.createUser()
+        )
 
-    @POST("secure/user/notification/channel")
-    suspend fun createUserNotificationChannel(
-        @Body channel: NewUserNotificationChannel
-    ): Response<UserNotificationChannel>
+    suspend fun getUserNotificationChannels() =
+        extractResponse(
+            service.getUserNotificationChannels()
+        )
 
-    @DELETE("secure/user/notification/channel/{id}")
-    suspend fun deleteUserNotificationChannel(@Path("id") id: Long): Response<Void>
+    suspend fun createUserNotificationChannel(channel: NewUserNotificationChannel) =
+        extractResponse(
+            service.createUserNotificationChannel(channel)
+        )
 
-    @GET("secure/user/validator")
-    suspend fun getUserValidators(): Response<List<UserValidator>>
+    suspend fun deleteUserNotificationChannel(id: Long) =
+        extractResponse(
+            service.deleteUserNotificationChannel(id)
+        )
 
-    @POST("secure/user/validator")
-    suspend fun createUserValidator(@Body validator: NewUserValidator): Response<UserValidator>
+    suspend fun getUserValidators() =
+        extractResponse(
+            service.getUserValidators()
+        )
 
-    @DELETE("secure/user/validator/{id}")
-    suspend fun deleteUserValidator(@Path("id") id: Long): Response<Void>
+    suspend fun createUserValidator(validator: NewUserValidator) =
+        extractResponse(
+            service.createUserValidator(validator)
+        )
 
-    @GET("secure/user/notification/rule")
-    suspend fun getUserNotificationRules(): Response<List<UserNotificationRule>>
+    suspend fun deleteUserValidator(id: Long) =
+        extractResponse(
+            service.deleteUserValidator(id)
+        )
 
-    @POST("secure/user/notification/rule")
-    suspend fun createUserNotificationRule(
-        @Body request: CreateUserNotificationRuleRequest
-    ): Response<UserNotificationRule>
+    suspend fun getUserNotificationRules() =
+        extractResponse(
+            service.getUserNotificationRules()
+        )
 
-    @DELETE("secure/user/notification/rule/{id}")
-    suspend fun deleteUserNotificationRule(@Path("id") id: Long): Response<Void>
+    suspend fun createUserNotificationRule(request: CreateUserNotificationRuleRequest) =
+        extractResponse(
+            service.createUserNotificationRule(request)
+        )
 
-    companion object {
-        private var service: AppService? = null
-        fun getInstance(context: Context, baseURL: String): AppService {
-            if (service == null) {
-                val logInterceptor = HttpLoggingInterceptor()
-                logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                val httpClientBuilder = OkHttpClient.Builder()
-                httpClientBuilder
-                    .addInterceptor(AuthInterceptor(context))
-                    .networkInterceptors()
-                    .add(logInterceptor)
-                val gson: Gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
-                    .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
-                    .create()
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(baseURL)
-                    .client(httpClientBuilder.build())
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
-                service = retrofit.create(AppService::class.java)
-            }
-            return service!!
-        }
-
-    }
+    suspend fun deleteUserNotificationRule(id: Long) =
+        extractResponse(
+            service.deleteUserNotificationRule(id)
+        )
 }

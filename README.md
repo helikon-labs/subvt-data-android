@@ -39,13 +39,12 @@ information.
     }
     ```
 
-2. Add the dependency for this library and Retrofit 2:
+2. Add the dependency:
 
     ```gradle
     dependencies {
         // ...
-        implementation 'com.github.helikon-labs:subvt-data-android:0.1.1'
-        implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+        implementation 'com.github.helikon-labs:subvt-data-android:0.1.2'
         // ...
     }
     ```
