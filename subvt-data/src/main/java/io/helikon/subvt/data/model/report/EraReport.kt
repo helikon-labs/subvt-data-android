@@ -1,5 +1,6 @@
-package io.helikon.subvt.data.model.substrate
+package io.helikon.subvt.data.model.report
 
+import io.helikon.subvt.data.model.substrate.Era
 import java.math.BigInteger
 
 /**

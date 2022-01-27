@@ -3,8 +3,8 @@ package io.helikon.subvt.data.service
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import io.helikon.subvt.data.model.substrate.EraReport
-import io.helikon.subvt.data.model.substrate.EraValidatorReport
+import io.helikon.subvt.data.model.report.EraReport
+import io.helikon.subvt.data.model.report.EraValidatorReport
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
