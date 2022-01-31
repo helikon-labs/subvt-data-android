@@ -2,7 +2,7 @@ package io.helikon.subvt.data.service
 
 import com.google.gson.reflect.TypeToken
 import io.helikon.subvt.data.model.app.ValidatorListUpdate
-import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
+import io.helikon.subvt.data.model.rpc.RPCPublishedMessage
 
 /**
  * Validator list RPC service client.
@@ -19,12 +19,12 @@ class ValidatorListService(
     "unsubscribe_validatorList"
 ) {
     private val responseType = TypeToken.getParameterized(
-        RPCSubscriptionMessage::class.java,
+        RPCPublishedMessage::class.java,
         ValidatorListUpdate::class.java,
     ).type
 
     override suspend fun processOnSubscribed(json: String) {
-        val update = gson.fromJson<RPCSubscriptionMessage<ValidatorListUpdate>>(
+        val update = gson.fromJson<RPCPublishedMessage<ValidatorListUpdate>>(
             json,
             responseType,
         )
@@ -38,7 +38,7 @@ class ValidatorListService(
     }
 
     override suspend fun processUpdate(json: String) {
-        val update = gson.fromJson<RPCSubscriptionMessage<ValidatorListUpdate>>(
+        val update = gson.fromJson<RPCPublishedMessage<ValidatorListUpdate>>(
             json,
             responseType,
         )

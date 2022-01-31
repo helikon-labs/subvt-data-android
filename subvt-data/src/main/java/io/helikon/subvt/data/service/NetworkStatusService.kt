@@ -4,7 +4,7 @@ import com.google.gson.reflect.TypeToken
 import io.helikon.subvt.data.model.app.NetworkStatus
 import io.helikon.subvt.data.model.app.NetworkStatusDiff
 import io.helikon.subvt.data.model.app.NetworkStatusUpdate
-import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
+import io.helikon.subvt.data.model.rpc.RPCPublishedMessage
 
 /**
  * Network status RPC service client.
@@ -21,12 +21,12 @@ class NetworkStatusService(
     "unsubscribe_networkStatus"
 ) {
     private val responseType = TypeToken.getParameterized(
-        RPCSubscriptionMessage::class.java,
+        RPCPublishedMessage::class.java,
         NetworkStatusUpdate::class.java,
     ).type
 
     override suspend fun processOnSubscribed(json: String) {
-        val update = gson.fromJson<RPCSubscriptionMessage<NetworkStatusUpdate>>(
+        val update = gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
             json,
             responseType,
         )
@@ -40,7 +40,7 @@ class NetworkStatusService(
     }
 
     override suspend fun processUpdate(json: String) {
-        val update = gson.fromJson<RPCSubscriptionMessage<NetworkStatusUpdate>>(
+        val update = gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
             json,
             responseType,
         )

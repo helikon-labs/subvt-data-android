@@ -18,13 +18,13 @@ internal data class RPCUnsubscribeStatus(
     val result: String,
 )
 
-internal data class RPCSubscriptionMessage<T>(
+internal data class RPCPublishedMessage<T>(
     private val jsonrpc: String,
     val method: String,
-    val params: RPCSubscriptionMessageParams<T>,
+    val params: RPCPublishedMessageParams<T>,
 )
 
-internal data class RPCSubscriptionMessageParams<T>(
+internal data class RPCPublishedMessageParams<T>(
     @SerializedName("subscription")
     val subscriptionId: Long,
     @SerializedName("result")
