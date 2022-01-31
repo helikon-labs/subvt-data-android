@@ -1,9 +1,9 @@
 package io.helikon.subvt.data.service
 
 import com.google.gson.reflect.TypeToken
-import io.helikon.subvt.data.model.NetworkStatus
-import io.helikon.subvt.data.model.NetworkStatusDiff
-import io.helikon.subvt.data.model.NetworkStatusUpdate
+import io.helikon.subvt.data.model.app.NetworkStatus
+import io.helikon.subvt.data.model.app.NetworkStatusDiff
+import io.helikon.subvt.data.model.app.NetworkStatusUpdate
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 
 /**

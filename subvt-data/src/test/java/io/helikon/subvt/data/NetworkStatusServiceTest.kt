@@ -3,8 +3,8 @@ package io.helikon.subvt.data
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import io.helikon.subvt.data.model.NetworkStatus
-import io.helikon.subvt.data.model.NetworkStatusDiff
+import io.helikon.subvt.data.model.app.NetworkStatus
+import io.helikon.subvt.data.model.app.NetworkStatusDiff
 import io.helikon.subvt.data.service.NetworkStatusService
 import io.helikon.subvt.data.service.RPCSubscriptionListener
 import io.helikon.subvt.data.service.RPCSubscriptionService

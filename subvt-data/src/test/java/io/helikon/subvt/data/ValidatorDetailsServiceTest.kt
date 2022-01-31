@@ -3,8 +3,8 @@ package io.helikon.subvt.data
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import com.orhanobut.logger.PrettyFormatStrategy
-import io.helikon.subvt.data.model.ValidatorDetails
-import io.helikon.subvt.data.model.ValidatorDetailsDiff
+import io.helikon.subvt.data.model.app.ValidatorDetails
+import io.helikon.subvt.data.model.app.ValidatorDetailsDiff
 import io.helikon.subvt.data.service.RPCSubscriptionListener
 import io.helikon.subvt.data.service.RPCSubscriptionService
 import io.helikon.subvt.data.service.ValidatorDetailsService

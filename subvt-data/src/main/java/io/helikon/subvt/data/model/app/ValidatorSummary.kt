@@ -1,4 +1,4 @@
-package io.helikon.subvt.data.model
+package io.helikon.subvt.data.model.app
 
 import com.google.gson.annotations.SerializedName
 import io.helikon.subvt.data.model.substrate.*

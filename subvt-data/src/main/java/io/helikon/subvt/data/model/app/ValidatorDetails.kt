@@ -1,4 +1,4 @@
-package io.helikon.subvt.data.model
+package io.helikon.subvt.data.model.app
 
 import io.helikon.subvt.data.model.substrate.*
 
@@ -30,7 +30,7 @@ data class ValidatorDetails(
     val heartbeatReceived: Boolean?,
     val validatorStake: ValidatorStake?,
     val onekvCandidateRecordId: Long?,
-    val onekvIsRank: Int?,
+    val onekvRank: Int?,
     val onekvIsValid: Boolean?,
 )
 
@@ -63,7 +63,7 @@ data class ValidatorDetailsDiff(
     val heartbeatReceived: Boolean?,
     val validatorStake: ValidatorStake?,
     val onekvCandidateRecordId: Long?,
-    val onekvIsRank: Int?,
+    val onekvRank: Int?,
     val onekvIsValid: Boolean?,
 )
 

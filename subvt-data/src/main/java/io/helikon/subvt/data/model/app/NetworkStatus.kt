@@ -1,4 +1,4 @@
-package io.helikon.subvt.data.model
+package io.helikon.subvt.data.model.app
 
 import io.helikon.subvt.data.model.substrate.Epoch
 import io.helikon.subvt.data.model.substrate.Era

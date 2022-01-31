@@ -1,7 +1,7 @@
 package io.helikon.subvt.data.service
 
 import com.google.gson.reflect.TypeToken
-import io.helikon.subvt.data.model.ValidatorListUpdate
+import io.helikon.subvt.data.model.app.ValidatorListUpdate
 import io.helikon.subvt.data.model.rpc.RPCSubscriptionMessage
 
 /**
