@@ -6,7 +6,7 @@ package io.helikon.subvt.data.model.app
 data class UserNotificationChannel(
     val id: Long,
     val userId: Long,
-    val channelCode: NotificationChannelCode,
+    val channel: NotificationChannel,
     val target: String,
 )
 
@@ -14,6 +14,6 @@ data class UserNotificationChannel(
  * Used when creating a new notification channel for the user.
  */
 data class NewUserNotificationChannel(
-    val channelCode: NotificationChannelCode,
+    val channel: NotificationChannel,
     val target: String,
 )

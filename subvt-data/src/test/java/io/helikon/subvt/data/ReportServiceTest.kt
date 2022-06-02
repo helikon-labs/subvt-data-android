@@ -14,7 +14,7 @@ class ReportServiceTest {
     companion object {
 
         val service = ReportService(
-            "http://${BuildConfig.API_HOST}:${BuildConfig.REPORT_SERVICE_PORT}/"
+            "https://${BuildConfig.API_HOST}:${BuildConfig.REPORT_SERVICE_PORT}/"
         )
 
         init {
@@ -27,20 +27,20 @@ class ReportServiceTest {
 
     @Test
     fun testEraReportBadParams() = runTest {
-        val response = service.getEraReport(3201, -10)
+        val response = service.getEraReport(3391, -10)
         assertFalse(response.isSuccess)
     }
 
     @Test
     fun testGetSingleEraReport() = runTest {
-        val response = service.getEraReport(3201, null)
+        val response = service.getEraReport(3391, null)
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 1)
     }
 
     @Test
     fun testGetMultipleEraReport() = runTest {
-        val response = service.getEraReport(3201, 3205)
+        val response = service.getEraReport(3391, 3395)
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 5)
     }
@@ -59,7 +59,7 @@ class ReportServiceTest {
     fun testGetSingleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(
             "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
-            3201,
+            3391,
             null
         )
         assertTrue(response.isSuccess)
@@ -70,8 +70,8 @@ class ReportServiceTest {
     fun testGetMultipleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(
             "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
-            3201,
-            3205
+            3391,
+            3395
         )
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 5)

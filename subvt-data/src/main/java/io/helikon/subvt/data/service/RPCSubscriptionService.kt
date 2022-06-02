@@ -13,9 +13,9 @@ import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.RewardDestination
 import io.helikon.subvt.data.model.substrate.RewardDestinationDeserializer
 import io.ktor.client.*
-import io.ktor.client.features.*
-import io.ktor.client.features.websocket.*
-import io.ktor.http.cio.websocket.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.websocket.*
+import io.ktor.websocket.*
 import kotlinx.coroutines.channels.ReceiveChannel
 
 /**
@@ -96,7 +96,7 @@ abstract class RPCSubscriptionService<K, T>(
             return
         }
         rpcId = (0..Int.MAX_VALUE).random().toLong()
-        client.ws(host = host, port = port) {
+        client.wss(host = host, port = port) {
             Logger.d("WebSockets session initialized.")
             send(
                 gson.toJson(

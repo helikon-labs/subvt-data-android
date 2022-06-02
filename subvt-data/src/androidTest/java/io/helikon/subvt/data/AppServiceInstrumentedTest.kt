@@ -31,7 +31,7 @@ class AppServiceInstrumentedTest {
         private val context = InstrumentationRegistry.getInstrumentation().targetContext
         private val service = AppService(
             context,
-            "http://${BuildConfig.API_HOST}:${BuildConfig.APP_SERVICE_PORT}/"
+            "https://${BuildConfig.API_HOST}:${BuildConfig.APP_SERVICE_PORT}/"
         )
 
         init {
@@ -43,29 +43,29 @@ class AppServiceInstrumentedTest {
     fun test01GetNetworks() = runTest {
         val result = service.getNetworks()
         assertTrue(result.isSuccess)
-        assertTrue(result.getOrNull()?.size ?: 0 > 0)
+        assertTrue((result.getOrNull()?.size ?: 0) > 0)
     }
 
     @Test
     fun test02GetNotificationChannels() = runTest {
         val response = service.getNotificationChannels()
         assertTrue(response.isSuccess)
-        assertTrue(response.getOrNull()?.size ?: 0 > 0)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
 
     @Test
     fun test03GetNotificationTypes() = runTest {
         val response = service.getNotificationTypes()
         assertTrue(response.isSuccess)
-        assertTrue(response.getOrNull()?.size ?: 0 > 0)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
 
     @Test
     fun test04CreateUser() = runTest {
         val response = service.createUser()
         assertTrue(response.isSuccess)
-        assertTrue(response.getOrNull()?.id ?: 0 > 0)
-        assertTrue(response.getOrNull()?.publicKeyHex?.length ?: 0 > 0)
+        assertTrue((response.getOrNull()?.id ?: 0) > 0)
+        assertTrue((response.getOrNull()?.publicKeyHex?.length ?: 0) > 0)
     }
 
     @Test
@@ -78,8 +78,8 @@ class AppServiceInstrumentedTest {
     @Test
     fun test06CreateUserNotificationChannel() = runTest {
         val gsmChannel = NewUserNotificationChannel(
-            NotificationChannelCode.GSM,
-            "+905321234567"
+            NotificationChannel.GSM,
+            "+905321234567",
         )
         val createResponse = service.createUserNotificationChannel(gsmChannel)
         assertTrue(createResponse.isSuccess)
@@ -87,6 +87,10 @@ class AppServiceInstrumentedTest {
         val listResponse = service.getUserNotificationChannels()
         assertTrue(listResponse.isSuccess)
         assertEquals(1, listResponse.getOrNull()!!.size)
+        assertEquals(
+            listResponse.getOrNull()!![0].channel,
+            NotificationChannel.GSM,
+        )
     }
 
     @Test
@@ -156,8 +160,8 @@ class AppServiceInstrumentedTest {
     fun test14CreateUserNotificationRule() = runTest {
         // create channel
         val gsmChannel = NewUserNotificationChannel(
-            NotificationChannelCode.GSM,
-            "+905329999999"
+            NotificationChannel.GSM,
+            "+905329999999",
         )
         service.createUserNotificationChannel(gsmChannel)
         val notificationType = service.getNotificationTypes().getOrNull()!!
@@ -178,7 +182,7 @@ class AppServiceInstrumentedTest {
             listOf(
                 NewUserNotificationRuleParameter(
                     notificationType.paramTypes[0].id,
-                    "12345"
+                    "12345",
                 )
             ),
             "Notes"
