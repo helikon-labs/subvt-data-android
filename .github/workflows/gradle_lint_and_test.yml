@@ -25,6 +25,7 @@ jobs:
       - name: Create properties file
         env:
           API_HOST: ${{ secrets.API_HOST }}
+          RPC_HOST: ${{ secrets.RPC_HOST }}
           NETWORK_STATUS_SERVICE_PORT: ${{ secrets.NETWORK_STATUS_SERVICE_PORT }}
           ACTIVE_VALIDATOR_LIST_SERVICE_PORT: ${{ secrets.ACTIVE_VALIDATOR_LIST_SERVICE_PORT }}
           INACTIVE_VALIDATOR_LIST_SERVICE_PORT: ${{ secrets.INACTIVE_VALIDATOR_LIST_SERVICE_PORT }}
@@ -33,6 +34,7 @@ jobs:
           APP_SERVICE_PORT: ${{ secrets.APP_SERVICE_PORT }}
         run: |
           echo "API_HOST=$API_HOST" >> subvt.properties
+          echo "RPC_HOST=$RPC_HOST" >> subvt.properties
           echo "NETWORK_STATUS_SERVICE_PORT=$NETWORK_STATUS_SERVICE_PORT" >> subvt.properties
           echo "ACTIVE_VALIDATOR_LIST_SERVICE_PORT=$ACTIVE_VALIDATOR_LIST_SERVICE_PORT" >> subvt.properties
           echo "INACTIVE_VALIDATOR_LIST_SERVICE_PORT=$INACTIVE_VALIDATOR_LIST_SERVICE_PORT" >> subvt.properties
@@ -65,6 +67,7 @@ jobs:
       - name: Create properties file
         env:
           API_HOST: ${{ secrets.API_HOST }}
+          RPC_HOST: ${{ secrets.RPC_HOST }}
           NETWORK_STATUS_SERVICE_PORT: ${{ secrets.NETWORK_STATUS_SERVICE_PORT }}
           ACTIVE_VALIDATOR_LIST_SERVICE_PORT: ${{ secrets.ACTIVE_VALIDATOR_LIST_SERVICE_PORT }}
           INACTIVE_VALIDATOR_LIST_SERVICE_PORT: ${{ secrets.INACTIVE_VALIDATOR_LIST_SERVICE_PORT }}
@@ -73,6 +76,7 @@ jobs:
           APP_SERVICE_PORT: ${{ secrets.APP_SERVICE_PORT }}
         run: |
           echo "API_HOST=$API_HOST" >> subvt.properties
+          echo "RPC_HOST=$RPC_HOST" >> subvt.properties
           echo "NETWORK_STATUS_SERVICE_PORT=$NETWORK_STATUS_SERVICE_PORT" >> subvt.properties
           echo "ACTIVE_VALIDATOR_LIST_SERVICE_PORT=$ACTIVE_VALIDATOR_LIST_SERVICE_PORT" >> subvt.properties
           echo "INACTIVE_VALIDATOR_LIST_SERVICE_PORT=$INACTIVE_VALIDATOR_LIST_SERVICE_PORT" >> subvt.properties

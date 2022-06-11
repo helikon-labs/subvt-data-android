@@ -19,6 +19,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField("String", "API_HOST", properties['API_HOST'])
+        buildConfigField("String", "RPC_HOST", properties['RPC_HOST'])
         // RPC services
         buildConfigField("int", "NETWORK_STATUS_SERVICE_PORT", properties['NETWORK_STATUS_SERVICE_PORT'])
         buildConfigField("int", "ACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties['ACTIVE_VALIDATOR_LIST_SERVICE_PORT'])

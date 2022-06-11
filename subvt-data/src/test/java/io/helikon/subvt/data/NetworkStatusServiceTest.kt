@@ -76,7 +76,7 @@ class NetworkStatusServiceTest {
 
         }
         val service = NetworkStatusService(
-            BuildConfig.API_HOST,
+            BuildConfig.RPC_HOST,
             BuildConfig.NETWORK_STATUS_SERVICE_PORT,
             listener
         )

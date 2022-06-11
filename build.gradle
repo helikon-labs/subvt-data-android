@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {
-        kotlinVersion = "1.6.21"
+        kotlinVersion = "1.7.0"
         kotlinCoroutinesVersion = "1.6.2"
         ktorVersion = "2.0.2"
         spongyCastleVersion = "1.58.0.0"

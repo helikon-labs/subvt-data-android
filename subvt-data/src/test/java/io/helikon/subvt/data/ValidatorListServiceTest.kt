@@ -83,7 +83,7 @@ class ValidatorListServiceTest {
     fun testActiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(
             testValidatorList(
-                BuildConfig.API_HOST,
+                BuildConfig.RPC_HOST,
                 BuildConfig.ACTIVE_VALIDATOR_LIST_SERVICE_PORT,
             )
         )
@@ -93,7 +93,7 @@ class ValidatorListServiceTest {
     fun testInactiveValidatorList() = runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
         assertTrue(
             testValidatorList(
-                BuildConfig.API_HOST,
+                BuildConfig.RPC_HOST,
                 BuildConfig.INACTIVE_VALIDATOR_LIST_SERVICE_PORT,
             )
         )

@@ -72,7 +72,7 @@ class ValidatorDetailsServiceTest {
             }
         }
         val service = ValidatorDetailsService(
-            BuildConfig.API_HOST,
+            BuildConfig.RPC_HOST,
             BuildConfig.VALIDATOR_DETAILS_SERVICE_PORT,
             listener,
         )
