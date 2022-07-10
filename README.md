@@ -19,7 +19,7 @@ information.
   the file contents with the service host and port details.
 - Run `./gradlew lintDebug` in the folder for lint checks.
 - Run `./gradlew test` for complete unit tests.
-- Run `./gradlew connectedCheck` for intrumented tests (only application service for now).
+- Run `./gradlew connectedCheck` for instrumented tests (only application service for now).
 - Run `./gradlew build` to build.
 
 ## Installation

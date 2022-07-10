@@ -36,6 +36,9 @@ class ReportServiceTest {
         val response = service.getEraReport(3391, null)
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 1)
+        val report = response.getOrNull()!![0]
+        assertTrue(report.activeValidatorCount > 0)
+        assertTrue(report.inactiveValidatorCount > 0)
     }
 
     @Test

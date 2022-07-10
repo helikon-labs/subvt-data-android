@@ -16,6 +16,8 @@ data class EraReport(
     val totalRewardPoints: Long?,
     val totalReward: BigInteger,
     val totalStake: BigInteger?,
+    val activeValidatorCount: Int,
+    val inactiveValidatorCount: Int,
     val activeNominatorCount: Int?,
     val offlineOffenceCount: Int?,
     val slashedAmount: BigInteger,
