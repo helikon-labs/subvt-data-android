@@ -3,7 +3,7 @@ package io.helikon.subvt.data.model.app
 import io.helikon.subvt.data.model.substrate.*
 
 /**
- * Returned by the validatod details service right after the initial subscription.
+ * Returned by the validator details service right after the initial subscription.
  */
 data class ValidatorDetails(
     val account: Account,

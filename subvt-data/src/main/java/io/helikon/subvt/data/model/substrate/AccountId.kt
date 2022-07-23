@@ -4,8 +4,8 @@
 package io.helikon.subvt.data.model.substrate
 
 import com.google.gson.*
-import io.helikon.subvt.data.ss58.SS58Encoder.hexToBytes
-import io.helikon.subvt.data.ss58.SS58Encoder.toSS58
+import io.helikon.subvt.data.ss58.SS58Codec.hexToBytes
+import io.helikon.subvt.data.ss58.SS58Codec.toSS58
 import java.lang.reflect.Type
 
 private fun String.decodeAccountIdHex(): ByteArray {

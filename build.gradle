@@ -2,7 +2,7 @@
 buildscript {
     ext {
         kotlinVersion = "1.7.10"
-        kotlinCoroutinesVersion = "1.6.3"
+        kotlinCoroutinesVersion = "1.6.4"
         ktorVersion = "2.0.3"
         spongyCastleVersion = "1.58.0.0"
     }

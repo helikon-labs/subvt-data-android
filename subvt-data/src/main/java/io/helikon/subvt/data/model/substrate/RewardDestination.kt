@@ -3,7 +3,7 @@ package io.helikon.subvt.data.model.substrate
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import io.helikon.subvt.data.ss58.SS58Encoder.hexToBytes
+import io.helikon.subvt.data.ss58.SS58Codec.hexToBytes
 import java.lang.reflect.Type
 
 /**

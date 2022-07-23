@@ -1,10 +1,10 @@
 package io.helikon.subvt.data
 
-import io.helikon.subvt.data.ss58.SS58Encoder.addressByte
-import io.helikon.subvt.data.ss58.SS58Encoder.addressByteOrNull
-import io.helikon.subvt.data.ss58.SS58Encoder.hexToAddress
-import io.helikon.subvt.data.ss58.SS58Encoder.hexToBytes
-import io.helikon.subvt.data.ss58.SS58Encoder.toAccountId
+import io.helikon.subvt.data.ss58.SS58Codec.addressByte
+import io.helikon.subvt.data.ss58.SS58Codec.addressByteOrNull
+import io.helikon.subvt.data.ss58.SS58Codec.hexToAddress
+import io.helikon.subvt.data.ss58.SS58Codec.hexToBytes
+import io.helikon.subvt.data.ss58.SS58Codec.toAccountId
 import org.junit.Assert.*
 import org.junit.Test
 

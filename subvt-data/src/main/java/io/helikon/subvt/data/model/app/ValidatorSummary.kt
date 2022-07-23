@@ -8,6 +8,7 @@ import io.helikon.subvt.data.model.substrate.*
  */
 data class ValidatorSummary(
     val accountId: AccountId,
+    val address: String,
     val controllerAccountId: AccountId?,
     val display: String?,
     val parentDisplay: String?,

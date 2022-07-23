@@ -16,7 +16,7 @@ import kotlin.experimental.or
 
 internal fun ByteArray.copyBytes(from: Int, size: Int) = copyOfRange(from, from + size)
 
-internal object SS58Encoder {
+internal object SS58Codec {
     private val PREFIX = "SS58PRE".toByteArray(Charsets.UTF_8)
     private const val PREFIX_SIZE = 2
     private const val PUBLIC_KEY_SIZE = 32
