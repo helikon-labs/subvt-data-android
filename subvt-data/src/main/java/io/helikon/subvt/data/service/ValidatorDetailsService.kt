@@ -52,5 +52,4 @@ class ValidatorDetailsService(
             update.params.body.validatorDetailsUpdate,
         )
     }
-
 }

@@ -10,8 +10,6 @@ import io.helikon.subvt.data.model.rpc.RPCSubscribeStatus
 import io.helikon.subvt.data.model.rpc.RPCUnsubscribeStatus
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
-import io.helikon.subvt.data.model.substrate.RewardDestination
-import io.helikon.subvt.data.model.substrate.RewardDestinationDeserializer
 import io.ktor.client.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.websocket.*
@@ -45,7 +43,6 @@ abstract class RPCSubscriptionService<K, T>(
     protected val gson: Gson = GsonBuilder()
         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
-        .registerTypeAdapter(RewardDestination::class.java, RewardDestinationDeserializer())
         .create()
 
     private suspend fun readNextTextFrame(incoming: ReceiveChannel<Frame>): Frame.Text {
