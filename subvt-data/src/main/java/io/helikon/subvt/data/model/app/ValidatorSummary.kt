@@ -10,6 +10,7 @@ data class ValidatorSummary(
     val accountId: AccountId,
     val address: String,
     val controllerAccountId: AccountId?,
+    val networkId: Long,
     val display: String?,
     val parentDisplay: String?,
     val childDisplay: String?,
@@ -35,6 +36,7 @@ data class ValidatorSummary(
 data class ValidatorSummaryDiff(
     val accountId: AccountId,
     val controllerAccountId: AccountId?,
+    val networkId: Long?,
     val display: String?,
     val parentDisplay: String?,
     val childDisplay: String?,

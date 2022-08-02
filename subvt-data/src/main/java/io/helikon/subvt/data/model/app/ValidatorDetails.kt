@@ -8,6 +8,7 @@ import io.helikon.subvt.data.model.substrate.*
 data class ValidatorDetails(
     val account: Account,
     val controllerAccountId: AccountId,
+    val networkId: Long,
     val preferences: ValidatorPreferences,
     val selfStake: Stake,
     val rewardDestination: RewardDestination,
@@ -41,6 +42,7 @@ data class ValidatorDetails(
 data class ValidatorDetailsDiff(
     val account: Account,
     val controllerAccountId: AccountId?,
+    val networkId: Long?,
     val preferences: ValidatorPreferences?,
     val selfStake: Stake?,
     val rewardDestination: RewardDestination?,
