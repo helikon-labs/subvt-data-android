@@ -8,7 +8,7 @@ import java.math.BigInteger
 data class Nomination(
     val stashAccountId: AccountId,
     val submissionEraIndex: Int,
-    val targetAccountIds: List<String>,
+    val nomineeCount: Int,
     val stake: Stake,
 )
 
