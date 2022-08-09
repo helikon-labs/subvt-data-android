@@ -14,7 +14,7 @@ class ReportService(baseURL: String) {
         extractResponse(
             service.getEraReport(
                 startEraIndex,
-                endEraIndex
+                endEraIndex,
             )
         )
 
@@ -27,7 +27,40 @@ class ReportService(baseURL: String) {
             service.getEraValidatorReport(
                 validatorAccountIdHex,
                 startEraIndex,
-                endEraIndex
+                endEraIndex,
             )
+        )
+
+    suspend fun getValidatorDetails(
+        validatorAccountIdHex: String,
+    ) =
+        extractResponse(
+            service.getValidatorDetails(
+                validatorAccountIdHex,
+            )
+        )
+
+    suspend fun getValidatorSummary(
+        validatorAccountIdHex: String,
+    ) =
+        extractResponse(
+            service.getValidatorSummary(
+                validatorAccountIdHex,
+            )
+        )
+
+    suspend fun getValidatorList() =
+        extractResponse(
+            service.getValidatorList()
+        )
+
+    suspend fun getActiveValidatorList() =
+        extractResponse(
+            service.getActiveValidatorList()
+        )
+
+    suspend fun getInactiveValidatorList() =
+        extractResponse(
+            service.getInactiveValidatorList()
         )
 }

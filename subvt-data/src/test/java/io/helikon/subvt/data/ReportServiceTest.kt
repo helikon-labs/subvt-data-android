@@ -12,10 +12,10 @@ import org.junit.Assert.*
 @ExperimentalCoroutinesApi
 class ReportServiceTest {
     companion object {
-
         val service = ReportService(
             "https://${BuildConfig.API_HOST}:${BuildConfig.REPORT_SERVICE_PORT}/"
         )
+        const val validatorAccountId = "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
 
         init {
             val formatStrategy = PrettyFormatStrategy.newBuilder()
@@ -51,7 +51,7 @@ class ReportServiceTest {
     @Test
     fun testEraValidatorReportBadParams() = runTest {
         val response = service.getEraValidatorReport(
-            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
+            validatorAccountId,
             -5,
             -2
         )
@@ -61,7 +61,7 @@ class ReportServiceTest {
     @Test
     fun testGetSingleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(
-            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
+            validatorAccountId,
             3391,
             null
         )
@@ -72,11 +72,56 @@ class ReportServiceTest {
     @Test
     fun testGetMultipleEraValidatorReport() = runTest {
         val response = service.getEraValidatorReport(
-            "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116",
+            validatorAccountId,
             3391,
             3395
         )
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 5)
+    }
+
+    @Test
+    fun testGetValidatorDetails() = runTest {
+        val response = service.getValidatorDetails(
+            validatorAccountId,
+        )
+        assertTrue(response.isSuccess)
+        assertEquals(
+            response.getOrNull()?.validatorDetails?.account?.id?.toString()?.lowercase(),
+            validatorAccountId.toString().lowercase()
+        )
+    }
+
+    @Test
+    fun testGetValidatorSummary() = runTest {
+        val response = service.getValidatorSummary(
+            validatorAccountId,
+        )
+        assertTrue(response.isSuccess)
+        assertEquals(
+            response.getOrNull()?.validatorSummary?.accountId?.toString()?.lowercase(),
+            validatorAccountId.lowercase()
+        )
+    }
+
+    @Test
+    fun testGetValidatorList() = runTest {
+        val response = service.getValidatorList()
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.validators?.size ?: 0) > 0)
+    }
+
+    @Test
+    fun testGetActiveValidatorList() = runTest {
+        val response = service.getActiveValidatorList()
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.validators?.size ?: 0) > 0)
+    }
+
+    @Test
+    fun testGetInactiveValidatorList() = runTest {
+        val response = service.getInactiveValidatorList()
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.validators?.size ?: 0) > 0)
     }
 }

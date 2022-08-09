@@ -3,8 +3,10 @@ package io.helikon.subvt.data.service
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import io.helikon.subvt.data.model.report.EraReport
-import io.helikon.subvt.data.model.report.EraValidatorReport
+import io.helikon.subvt.data.model.report.*
+import io.helikon.subvt.data.model.substrate.AccountId
+import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
+import io.helikon.subvt.data.model.substrate.AccountIdSerializer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -32,6 +34,25 @@ internal interface ReportServiceInternal {
         @Query("end_era_index") endEraIndex: Int?,
     ): Response<List<EraValidatorReport>>
 
+    @GET("validator/{validator_account_id_hex}/details")
+    suspend fun getValidatorDetails(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
+    ): Response<ValidatorDetailsReport>
+
+    @GET("validator/{validator_account_id_hex}/summary")
+    suspend fun getValidatorSummary(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
+    ): Response<ValidatorSummaryReport>
+
+    @GET("validator/list")
+    suspend fun getValidatorList(): Response<ValidatorListReport>
+
+    @GET("validator/list/active")
+    suspend fun getActiveValidatorList(): Response<ValidatorListReport>
+
+    @GET("validator/list/inactive")
+    suspend fun getInactiveValidatorList(): Response<ValidatorListReport>
+
     companion object {
         private var service: ReportServiceInternal? = null
         fun getInstance(baseURL: String): ReportServiceInternal {
@@ -45,6 +66,8 @@ internal interface ReportServiceInternal {
                 val gson: Gson = GsonBuilder()
                     .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
+                    .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
                     .create()
                 val retrofit = Retrofit.Builder()
                     .baseUrl(baseURL)
