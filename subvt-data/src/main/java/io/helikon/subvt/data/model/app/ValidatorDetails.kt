@@ -21,7 +21,6 @@ data class ValidatorDetails(
     val inactiveEraCount: Int,
     val slashCount: Int,
     val offlineOffenceCount: Int,
-    val totalRewardPoints: Long,
     val unclaimedEraIndices: List<Int>,
     val isParaValidator: Boolean,
     val paraCoreAssignment: ParaCoreAssignment?,
@@ -32,7 +31,9 @@ data class ValidatorDetails(
     val validatorStake: ValidatorStake?,
     val onekvCandidateRecordId: Long?,
     val onekvRank: Int?,
+    val onekvLocation: String?,
     val onekvIsValid: Boolean?,
+    val onekvOfflineSince: Long?,
 )
 
 /**
@@ -55,7 +56,6 @@ data class ValidatorDetailsDiff(
     val inactiveEraCount: Int?,
     val slashCount: Int?,
     val offlineOffenceCount: Int?,
-    val totalRewardPoints: Long?,
     val unclaimedEraIndices: List<Int>?,
     val isParaValidator: Boolean?,
     val paraCoreAssignment: ParaCoreAssignment?,
@@ -66,7 +66,9 @@ data class ValidatorDetailsDiff(
     val validatorStake: ValidatorStake?,
     val onekvCandidateRecordId: Long?,
     val onekvRank: Int?,
+    val onekvLocation: String?,
     val onekvIsValid: Boolean?,
+    val onekvOfflineSince: Long?,
 )
 
 data class ValidatorDetailsUpdate(
