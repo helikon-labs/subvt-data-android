@@ -63,4 +63,11 @@ class ReportService(baseURL: String) {
         extractResponse(
             service.getInactiveValidatorList()
         )
+
+    suspend fun searchValidators(
+        query: String,
+    ) =
+        extractResponse(
+            service.searchValidators(query)
+        )
 }

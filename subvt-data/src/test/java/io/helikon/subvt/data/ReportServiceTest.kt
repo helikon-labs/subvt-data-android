@@ -88,7 +88,7 @@ class ReportServiceTest {
         assertTrue(response.isSuccess)
         assertEquals(
             response.getOrNull()?.validatorDetails?.account?.id?.toString()?.lowercase(),
-            validatorAccountId.toString().lowercase()
+            validatorAccountId.lowercase()
         )
     }
 
@@ -123,5 +123,12 @@ class ReportServiceTest {
         val response = service.getInactiveValidatorList()
         assertTrue(response.isSuccess)
         assertTrue((response.getOrNull()?.validators?.size ?: 0) > 0)
+    }
+
+    @Test
+    fun testSearchValidators() = runTest {
+        val response = service.searchValidators("elik")
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
 }

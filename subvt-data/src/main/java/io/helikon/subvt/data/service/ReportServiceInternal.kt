@@ -3,6 +3,7 @@ package io.helikon.subvt.data.service
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import io.helikon.subvt.data.model.app.ValidatorSearchSummary
 import io.helikon.subvt.data.model.report.*
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
@@ -52,6 +53,11 @@ internal interface ReportServiceInternal {
 
     @GET("validator/list/inactive")
     suspend fun getInactiveValidatorList(): Response<ValidatorListReport>
+
+    @GET("validator/search")
+    suspend fun searchValidators(
+        @Query("query") query: String
+    ): Response<List<ValidatorSearchSummary>>
 
     companion object {
         private var service: ReportServiceInternal? = null
