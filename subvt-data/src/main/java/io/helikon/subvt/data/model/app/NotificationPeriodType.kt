@@ -13,4 +13,6 @@ enum class NotificationPeriodType {
     EPOCH,
     @SerializedName("era")
     ERA,
+    @SerializedName("off")
+    OFF,
 }

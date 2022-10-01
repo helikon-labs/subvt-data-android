@@ -64,6 +64,11 @@ internal interface AppServiceInternal {
     @DELETE("secure/user/notification/rule/{id}")
     suspend fun deleteUserNotificationRule(@Path("id") id: Long): Response<Void>
 
+    @POST("secure/user/notification/rule/default")
+    suspend fun createDefaultUserNotificationRules(
+        @Body request: CreateDefaultUserNotificationRulesRequest
+    ): Response<Void>
+
     companion object {
         private var service: AppServiceInternal? = null
         fun getInstance(context: Context, baseURL: String): AppServiceInternal {

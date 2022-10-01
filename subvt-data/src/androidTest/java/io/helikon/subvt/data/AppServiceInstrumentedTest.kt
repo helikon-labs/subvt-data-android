@@ -205,4 +205,22 @@ class AppServiceInstrumentedTest {
         assertEquals(404, deleteResponse.apiException()?.code ?: 0)
         assertFalse(deleteResponse.isSuccess)
     }
+
+    @Test
+    fun test17CreateDefaultUserNotificationRules() = runTest {
+        // create channel
+        val apnsChannel = NewUserNotificationChannel(
+            NotificationChannel.APNS,
+            "ASD-1234-FGD-5453",
+        )
+        val createChannelResponse = service.createUserNotificationChannel(apnsChannel)
+        assertTrue(createChannelResponse.isSuccess)
+        val channelId = createChannelResponse.getOrNull()?.id ?: 0
+        assertTrue(channelId > 0)
+        val request = CreateDefaultUserNotificationRulesRequest(channelId)
+        assertTrue(service.createDefaultUserNotificationRules(request).isSuccess)
+        val listResponse = service.getUserNotificationRules()
+        assertTrue(listResponse.isSuccess)
+        assertTrue((listResponse.getOrNull()?.size ?: 0) > 20)
+    }
 }

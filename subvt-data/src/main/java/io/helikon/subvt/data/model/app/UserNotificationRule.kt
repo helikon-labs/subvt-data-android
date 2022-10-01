@@ -1,6 +1,13 @@
 package io.helikon.subvt.data.model.app
 
 /**
+ * Used when creating default notification rules for a notification channel of the user.
+ */
+data class CreateDefaultUserNotificationRulesRequest(
+    val userNotificationChannelId: Long,
+)
+
+/**
  * Used when creating a new notification rule for the user.
  */
 data class CreateUserNotificationRuleRequest(

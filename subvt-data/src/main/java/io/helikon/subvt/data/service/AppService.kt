@@ -74,4 +74,9 @@ class AppService(context: Context, baseURL: String) {
         extractResponse(
             service.deleteUserNotificationRule(id)
         )
+
+    suspend fun createDefaultUserNotificationRules(request: CreateDefaultUserNotificationRulesRequest) =
+        extractResponse(
+            service.createDefaultUserNotificationRules(request)
+        )
 }
