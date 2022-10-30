@@ -157,7 +157,7 @@ class AppServiceInstrumentedTest {
     }
 
     @Test
-    fun test14CreateUserNotificationRule() = runTest {
+    fun test14CreateAndDeleteUserNotificationRule() = runTest {
         // create channel
         val gsmChannel = NewUserNotificationChannel(
             NotificationChannel.GSM,
@@ -190,14 +190,21 @@ class AppServiceInstrumentedTest {
         val response = service.createUserNotificationRule(request)
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.notificationType?.code ?: "", notificationType.code)
-    }
-
-    @Test
-    fun test15DeleteUserNotificationRule() = runTest {
-        val id = service.getUserNotificationChannels().getOrNull()!![0].id
-        val deleteResponse = service.deleteUserNotificationChannel(id)
+        val ruleId = response.getOrNull()!!.id
+        val deleteResponse = service.deleteUserNotificationRule(ruleId)
         assertTrue(deleteResponse.isSuccess)
     }
+
+    /*
+    @Test
+    fun test15DeleteUserNotificationRule() = runTest {
+        val id = service.getUserNotificationRules().getOrNull()!![0].id
+        val deleteResponse = service.deleteUserNotificationRule(id)
+        assertTrue(deleteResponse.isSuccess)
+        val rules = service.getUserNotificationRules()
+        assertFalse(rules.getOrNull()?.isEmpty() ?: true)
+    }
+     */
 
     @Test
     fun test16DeleteNonExistingUserNotificationRule() = runTest {
