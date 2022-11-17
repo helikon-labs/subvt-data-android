@@ -131,4 +131,11 @@ class ReportServiceTest {
         assertTrue(response.isSuccess)
         assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
+
+    @Test
+    fun testGetOneKVNominatorSummaries() = runTest {
+        val response = service.getOneKVNominatorSummaries()
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
+    }
 }

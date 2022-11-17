@@ -70,4 +70,9 @@ class ReportService(baseURL: String) {
         extractResponse(
             service.searchValidators(query)
         )
+
+    suspend fun getOneKVNominatorSummaries() =
+        extractResponse(
+            service.getOneKVNominatorSummaries()
+        )
 }

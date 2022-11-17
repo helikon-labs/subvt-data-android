@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.app.ValidatorSearchSummary
+import io.helikon.subvt.data.model.onekv.OneKVNominatorSummary
 import io.helikon.subvt.data.model.report.*
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
@@ -58,6 +59,9 @@ internal interface ReportServiceInternal {
     suspend fun searchValidators(
         @Query("query") query: String
     ): Response<List<ValidatorSearchSummary>>
+
+    @GET("onekv/nominator")
+    suspend fun getOneKVNominatorSummaries(): Response<List<OneKVNominatorSummary>>
 
     companion object {
         private var service: ReportServiceInternal? = null
