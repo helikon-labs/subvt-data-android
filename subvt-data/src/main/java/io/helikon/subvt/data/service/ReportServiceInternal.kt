@@ -9,6 +9,7 @@ import io.helikon.subvt.data.model.report.*
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.AccountIdSerializer
+import io.helikon.subvt.data.model.substrate.Era
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -62,6 +63,12 @@ internal interface ReportServiceInternal {
 
     @GET("onekv/nominator")
     suspend fun getOneKVNominatorSummaries(): Response<List<OneKVNominatorSummary>>
+
+    @GET("era")
+    suspend fun getAllEras(): Response<List<Era>>
+
+    @GET("era/current")
+    suspend fun getCurrentEra(): Response<Era>
 
     companion object {
         private var service: ReportServiceInternal? = null

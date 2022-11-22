@@ -75,4 +75,14 @@ class ReportService(baseURL: String) {
         extractResponse(
             service.getOneKVNominatorSummaries()
         )
+
+    suspend fun getAllEras() =
+        extractResponse(
+            service.getAllEras()
+        )
+
+    suspend fun getCurrentEra() =
+        extractResponse(
+            service.getCurrentEra()
+        )
 }

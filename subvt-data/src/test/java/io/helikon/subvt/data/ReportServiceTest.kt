@@ -138,4 +138,18 @@ class ReportServiceTest {
         assertTrue(response.isSuccess)
         assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
+
+    @Test
+    fun testGetAllEras() = runTest {
+        val response = service.getAllEras()
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
+    }
+
+    @Test
+    fun testGetCurrentEra() = runTest {
+        val response = service.getCurrentEra()
+        assertTrue(response.isSuccess)
+        assertTrue(response.getOrNull() != null)
+    }
 }
