@@ -152,4 +152,22 @@ class ReportServiceTest {
         assertTrue(response.isSuccess)
         assertTrue(response.getOrNull() != null)
     }
+
+    @Test
+    fun testGetValidatorEraRewardReport() = runTest {
+        val response = service.getValidatorEraRewardReport(
+            validatorAccountId,
+        )
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
+    }
+
+    @Test
+    fun testGetValidatorEraPayoutReport() = runTest {
+        val response = service.getValidatorEraPayoutReport(
+            validatorAccountId,
+        )
+        assertTrue(response.isSuccess)
+        assertTrue((response.getOrNull()?.size ?: 0) > 0)
+    }
 }

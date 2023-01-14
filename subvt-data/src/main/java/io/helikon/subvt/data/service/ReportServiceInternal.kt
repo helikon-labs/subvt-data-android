@@ -70,6 +70,16 @@ internal interface ReportServiceInternal {
     @GET("era/current")
     suspend fun getCurrentEra(): Response<Era>
 
+    @GET("validator/{validator_account_id_hex}/era/reward")
+    suspend fun getValidatorEraRewardReport(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
+    ): Response<List<ValidatorEraRewardReport>>
+
+    @GET("validator/{validator_account_id_hex}/era/payout")
+    suspend fun getValidatorEraPayoutReport(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
+    ): Response<List<ValidatorEraPayoutReport>>
+
     companion object {
         private var service: ReportServiceInternal? = null
         fun getInstance(baseURL: String): ReportServiceInternal {

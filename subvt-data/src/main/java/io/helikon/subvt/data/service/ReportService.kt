@@ -85,4 +85,22 @@ class ReportService(baseURL: String) {
         extractResponse(
             service.getCurrentEra()
         )
+
+    suspend fun getValidatorEraRewardReport(
+        validatorAccountIdHex: String,
+    ) =
+        extractResponse(
+            service.getValidatorEraRewardReport(
+                validatorAccountIdHex,
+            )
+        )
+
+    suspend fun getValidatorEraPayoutReport(
+        validatorAccountIdHex: String,
+    ) =
+        extractResponse(
+            service.getValidatorEraPayoutReport(
+                validatorAccountIdHex,
+            )
+        )
 }
