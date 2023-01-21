@@ -103,4 +103,22 @@ class ReportService(baseURL: String) {
                 validatorAccountIdHex,
             )
         )
+
+    suspend fun getSessionValidatorReport(
+        validatorAccountIdHex: String,
+        startSessionIndex: Int,
+        endSessionIndex: Int?
+    ) =
+        extractResponse(
+            service.getSessionValidatorReport(
+                validatorAccountIdHex,
+                startSessionIndex,
+                endSessionIndex,
+            )
+        )
+
+    suspend fun getCurrentSession() =
+        extractResponse(
+            service.getCurrentSession()
+        )
 }

@@ -170,4 +170,33 @@ class ReportServiceTest {
         assertTrue(response.isSuccess)
         assertTrue((response.getOrNull()?.size ?: 0) > 0)
     }
+
+    @Test
+    fun testGetSingleSessionValidatorReport() = runTest {
+        val response = service.getSessionValidatorReport(
+            validatorAccountId,
+            27582,
+            null
+        )
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 1)
+    }
+
+    @Test
+    fun testGetMultipleSessionValidatorReport() = runTest {
+        val response = service.getSessionValidatorReport(
+            validatorAccountId,
+            27582,
+            27591
+        )
+        assertTrue(response.isSuccess)
+        assertEquals(response.getOrNull()?.size ?: 0, 10)
+    }
+
+    @Test
+    fun testGetCurrentSession() = runTest {
+        val response = service.getCurrentSession()
+        assertTrue(response.isSuccess)
+        assertTrue(response.getOrNull() != null)
+    }
 }

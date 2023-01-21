@@ -6,10 +6,9 @@ import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.app.ValidatorSearchSummary
 import io.helikon.subvt.data.model.onekv.OneKVNominatorSummary
 import io.helikon.subvt.data.model.report.*
-import io.helikon.subvt.data.model.substrate.AccountId
+import io.helikon.subvt.data.model.substrate.*
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.AccountIdSerializer
-import io.helikon.subvt.data.model.substrate.Era
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -79,6 +78,16 @@ internal interface ReportServiceInternal {
     suspend fun getValidatorEraPayoutReport(
         @Path("validator_account_id_hex") validatorAccountIdHex: String,
     ): Response<List<ValidatorEraPayoutReport>>
+
+    @GET("report/session/validator/{validator_account_id_hex}")
+    suspend fun getSessionValidatorReport(
+        @Path("validator_account_id_hex") validatorAccountIdHex: String,
+        @Query("start_session_index") startSessionIndex: Int,
+        @Query("end_session_index") endSessionIndex: Int?,
+    ): Response<List<SessionValidatorReport>>
+
+    @GET("session/current")
+    suspend fun getCurrentSession(): Response<Epoch>
 
     companion object {
         private var service: ReportServiceInternal? = null
