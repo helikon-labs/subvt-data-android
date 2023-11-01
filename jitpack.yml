@@ -1,4 +1,4 @@
 jdk:
-  - openjdk11
+  - openjdk17
 before_install:
   - cp subvt.properties.sample subvt.properties
