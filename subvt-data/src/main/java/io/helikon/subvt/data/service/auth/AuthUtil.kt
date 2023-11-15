@@ -60,8 +60,8 @@ internal fun generateEncryptionKeyPair() {
             commsKeyAlias,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         )
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
-            .setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PKCS1)
+            //.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
+            //.setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PKCS1)
             .setKeySize(2048)
             .setKeyValidityStart(notBefore.time)
             .setKeyValidityEnd(notAfter.time)
