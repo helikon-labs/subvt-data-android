@@ -60,8 +60,7 @@ internal fun generateEncryptionKeyPair() {
             commsKeyAlias,
             KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
         )
-            //.setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
-            //.setSignaturePaddings(KeyProperties.SIGNATURE_PADDING_RSA_PKCS1)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
             .setKeySize(2048)
             .setKeyValidityStart(notBefore.time)
             .setKeyValidityEnd(notAfter.time)
@@ -83,8 +82,7 @@ private fun getPublicKeyEncryptedFilePath(context: Context): String {
 }
 
 private fun getCipherInstance() = Cipher.getInstance(
-    "RSA/ECB/OAEPWITHSHA-256ANDMGF1PADDING",
-    "AndroidKeyStoreBCWorkaround"
+    "RSA/ECB/OAEPWithSHA-256AndMGF1Padding",
 )
 
 internal fun storeKeyPair(context: Context, keyPair: ECKeyPair) {

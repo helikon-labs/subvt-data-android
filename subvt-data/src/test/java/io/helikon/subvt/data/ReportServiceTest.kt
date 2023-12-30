@@ -175,7 +175,7 @@ class ReportServiceTest {
     fun testGetSingleSessionValidatorReport() = runTest {
         val response = service.getSessionValidatorReport(
             validatorAccountId,
-            27582,
+            35675,
             null
         )
         assertTrue(response.isSuccess)
@@ -186,8 +186,8 @@ class ReportServiceTest {
     fun testGetMultipleSessionValidatorReport() = runTest {
         val response = service.getSessionValidatorReport(
             validatorAccountId,
-            27582,
-            27591
+            35658,
+            35667
         )
         assertTrue(response.isSuccess)
         assertEquals(response.getOrNull()?.size ?: 0, 10)
