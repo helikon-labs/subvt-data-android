@@ -13,23 +13,25 @@ class ValidatorDetailsService(
     host: String,
     port: Int,
     private val listener: RPCSubscriptionListener<ValidatorDetails, ValidatorDetailsDiff>,
-): RPCSubscriptionService<ValidatorDetails, ValidatorDetailsDiff>(
-    host,
-    port,
-    listener,
-    "subscribe_validatorDetails",
-    "unsubscribe_validatorDetails"
-) {
-    private val responseType = TypeToken.getParameterized(
-        RPCPublishedMessage::class.java,
-        ValidatorDetailsUpdate::class.java,
-    ).type
+) : RPCSubscriptionService<ValidatorDetails, ValidatorDetailsDiff>(
+        host,
+        port,
+        listener,
+        "subscribe_validatorDetails",
+        "unsubscribe_validatorDetails",
+    ) {
+    private val responseType =
+        TypeToken.getParameterized(
+            RPCPublishedMessage::class.java,
+            ValidatorDetailsUpdate::class.java,
+        ).type
 
     override suspend fun processOnSubscribed(json: String) {
-        val update = gson.fromJson<RPCPublishedMessage<ValidatorDetailsUpdate>>(
-            json,
-            responseType,
-        )
+        val update =
+            gson.fromJson<RPCPublishedMessage<ValidatorDetailsUpdate>>(
+                json,
+                responseType,
+            )
         listener.onSubscribed(
             this,
             subscriptionId,
@@ -40,10 +42,11 @@ class ValidatorDetailsService(
     }
 
     override suspend fun processUpdate(json: String) {
-        val update = gson.fromJson<RPCPublishedMessage<ValidatorDetailsUpdate>>(
-            json,
-            responseType,
-        )
+        val update =
+            gson.fromJson<RPCPublishedMessage<ValidatorDetailsUpdate>>(
+                json,
+                responseType,
+            )
         listener.onUpdateReceived(
             this,
             subscriptionId,

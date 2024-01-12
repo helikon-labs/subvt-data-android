@@ -1,7 +1,10 @@
 package io.helikon.subvt.data.service
 
 import android.content.Context
-import io.helikon.subvt.data.model.app.*
+import io.helikon.subvt.data.model.app.CreateDefaultUserNotificationRulesRequest
+import io.helikon.subvt.data.model.app.CreateUserNotificationRuleRequest
+import io.helikon.subvt.data.model.app.NewUserNotificationChannel
+import io.helikon.subvt.data.model.app.NewUserValidator
 
 /**
  * Public interface for the application service.
@@ -12,71 +15,71 @@ class AppService(context: Context, baseURL: String) {
 
     suspend fun getNetworks() =
         extractResponse(
-            service.getNetworks()
+            service.getNetworks(),
         )
 
     suspend fun getNotificationChannels() =
         extractResponse(
-            service.getNotificationChannels()
+            service.getNotificationChannels(),
         )
 
     suspend fun getNotificationTypes() =
         extractResponse(
-            service.getNotificationTypes()
+            service.getNotificationTypes(),
         )
 
     suspend fun createUser() =
         extractResponse(
-            service.createUser()
+            service.createUser(),
         )
 
     suspend fun getUserNotificationChannels() =
         extractResponse(
-            service.getUserNotificationChannels()
+            service.getUserNotificationChannels(),
         )
 
     suspend fun createUserNotificationChannel(channel: NewUserNotificationChannel) =
         extractResponse(
-            service.createUserNotificationChannel(channel)
+            service.createUserNotificationChannel(channel),
         )
 
     suspend fun deleteUserNotificationChannel(id: Long) =
         extractResponse(
-            service.deleteUserNotificationChannel(id)
+            service.deleteUserNotificationChannel(id),
         )
 
     suspend fun getUserValidators() =
         extractResponse(
-            service.getUserValidators()
+            service.getUserValidators(),
         )
 
     suspend fun createUserValidator(validator: NewUserValidator) =
         extractResponse(
-            service.createUserValidator(validator)
+            service.createUserValidator(validator),
         )
 
     suspend fun deleteUserValidator(id: Long) =
         extractResponse(
-            service.deleteUserValidator(id)
+            service.deleteUserValidator(id),
         )
 
     suspend fun getUserNotificationRules() =
         extractResponse(
-            service.getUserNotificationRules()
+            service.getUserNotificationRules(),
         )
 
     suspend fun createUserNotificationRule(request: CreateUserNotificationRuleRequest) =
         extractResponse(
-            service.createUserNotificationRule(request)
+            service.createUserNotificationRule(request),
         )
 
     suspend fun deleteUserNotificationRule(id: Long) =
         extractResponse(
-            service.deleteUserNotificationRule(id)
+            service.deleteUserNotificationRule(id),
         )
 
     suspend fun createDefaultUserNotificationRules(request: CreateDefaultUserNotificationRulesRequest) =
         extractResponse(
-            service.createDefaultUserNotificationRules(request)
+            service.createDefaultUserNotificationRules(request),
         )
 }

@@ -5,10 +5,19 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.helikon.subvt.data.model.app.ValidatorSearchSummary
 import io.helikon.subvt.data.model.onekv.OneKVNominatorSummary
-import io.helikon.subvt.data.model.report.*
-import io.helikon.subvt.data.model.substrate.*
+import io.helikon.subvt.data.model.report.EraReport
+import io.helikon.subvt.data.model.report.EraValidatorReport
+import io.helikon.subvt.data.model.report.SessionValidatorReport
+import io.helikon.subvt.data.model.report.ValidatorDetailsReport
+import io.helikon.subvt.data.model.report.ValidatorEraPayoutReport
+import io.helikon.subvt.data.model.report.ValidatorEraRewardReport
+import io.helikon.subvt.data.model.report.ValidatorListReport
+import io.helikon.subvt.data.model.report.ValidatorSummaryReport
+import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.AccountIdSerializer
+import io.helikon.subvt.data.model.substrate.Epoch
+import io.helikon.subvt.data.model.substrate.Era
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -57,7 +66,7 @@ internal interface ReportServiceInternal {
 
     @GET("validator/search")
     suspend fun searchValidators(
-        @Query("query") query: String
+        @Query("query") query: String,
     ): Response<List<ValidatorSearchSummary>>
 
     @GET("onekv/nominator")
@@ -91,6 +100,7 @@ internal interface ReportServiceInternal {
 
     companion object {
         private var service: ReportServiceInternal? = null
+
         fun getInstance(baseURL: String): ReportServiceInternal {
             if (service == null) {
                 val logInterceptor = HttpLoggingInterceptor()
@@ -99,17 +109,19 @@ internal interface ReportServiceInternal {
                 httpClientBuilder
                     .networkInterceptors()
                     .add(logInterceptor)
-                val gson: Gson = GsonBuilder()
-                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                    .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
-                    .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
-                    .create()
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(baseURL)
-                    .client(httpClientBuilder.build())
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build()
+                val gson: Gson =
+                    GsonBuilder()
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
+                        .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
+                        .create()
+                val retrofit =
+                    Retrofit.Builder()
+                        .baseUrl(baseURL)
+                        .client(httpClientBuilder.build())
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build()
                 service = retrofit.create(ReportServiceInternal::class.java)
             }
             return service!!

@@ -14,13 +14,13 @@ import java.io.FileOutputStream
 import java.math.BigInteger
 import java.security.KeyPairGenerator
 import java.security.KeyStore
-import java.util.*
+import java.util.Calendar
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
 import javax.crypto.CipherOutputStream
 import javax.security.auth.x500.X500Principal
 
-const val commsKeyAlias = "SubVTCommsKey"
+const val COMMS_KEY_ALIAS = "SubVTCommsKey"
 
 internal fun Int.toPaddedHexString(): String {
     return toHexString().run {
@@ -51,14 +51,15 @@ internal fun generateEncryptionKeyPair() {
     val notBefore = Calendar.getInstance()
     val notAfter = Calendar.getInstance()
     notAfter.add(Calendar.YEAR, 1)
-    val spec = KeyPairGenerator.getInstance(
-        KeyProperties.KEY_ALGORITHM_RSA,
-        "AndroidKeyStore"
-    )
+    val spec =
+        KeyPairGenerator.getInstance(
+            KeyProperties.KEY_ALGORITHM_RSA,
+            "AndroidKeyStore",
+        )
     spec.initialize(
         KeyGenParameterSpec.Builder(
-            commsKeyAlias,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+            COMMS_KEY_ALIAS,
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT,
         )
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_OAEP)
             .setKeySize(2048)
@@ -66,7 +67,7 @@ internal fun generateEncryptionKeyPair() {
             .setKeyValidityEnd(notAfter.time)
             .setCertificateSubject(X500Principal("CN=subvt"))
             .setCertificateSerialNumber(BigInteger(System.currentTimeMillis().toString()))
-            .build()
+            .build(),
     )
     spec.generateKeyPair()
 }
@@ -81,38 +82,48 @@ private fun getPublicKeyEncryptedFilePath(context: Context): String {
     return filesDir + File.separator + "subvt_comms_pub"
 }
 
-private fun getCipherInstance() = Cipher.getInstance(
-    "RSA/ECB/OAEPWithSHA-256AndMGF1Padding",
-)
+private fun getCipherInstance() =
+    Cipher.getInstance(
+        "RSA/ECB/OAEPWithSHA-256AndMGF1Padding",
+    )
 
-internal fun storeKeyPair(context: Context, keyPair: ECKeyPair) {
+internal fun storeKeyPair(
+    context: Context,
+    keyPair: ECKeyPair,
+) {
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
-    if (!keyStore.containsAlias(commsKeyAlias)) {
+    if (!keyStore.containsAlias(COMMS_KEY_ALIAS)) {
         generateEncryptionKeyPair()
     }
-    val entry = keyStore.getEntry(commsKeyAlias, null) as KeyStore.PrivateKeyEntry
+    val entry = keyStore.getEntry(COMMS_KEY_ALIAS, null) as KeyStore.PrivateKeyEntry
     val inCipher = getCipherInstance()
     inCipher.init(Cipher.ENCRYPT_MODE, entry.certificate.publicKey)
-    var cipherOutputStream = CipherOutputStream(
-        FileOutputStream(getPrivateKeyEncryptedFilePath(context)),
-        inCipher
-    )
+    var cipherOutputStream =
+        CipherOutputStream(
+            FileOutputStream(getPrivateKeyEncryptedFilePath(context)),
+            inCipher,
+        )
     cipherOutputStream.write(keyPair.privateKey.toByteArray())
     cipherOutputStream.close()
-    cipherOutputStream = CipherOutputStream(
-        FileOutputStream(getPublicKeyEncryptedFilePath(context)),
-        inCipher
-    )
+    cipherOutputStream =
+        CipherOutputStream(
+            FileOutputStream(getPublicKeyEncryptedFilePath(context)),
+            inCipher,
+        )
     cipherOutputStream.write(keyPair.publicKey.toByteArray())
     cipherOutputStream.close()
 }
 
-private fun getFileBytes(path: String, outCipher: Cipher): ByteArray {
-    val cipherInputStream = CipherInputStream(
-        FileInputStream(path),
-        outCipher
-    )
+private fun getFileBytes(
+    path: String,
+    outCipher: Cipher,
+): ByteArray {
+    val cipherInputStream =
+        CipherInputStream(
+            FileInputStream(path),
+            outCipher,
+        )
     val byteList = mutableListOf<Byte>()
     while (true) {
         val nextByte = cipherInputStream.read().toByte()
@@ -130,7 +141,7 @@ internal fun getKeyPair(context: Context): ECKeyPair? {
     }
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
-    val entry = keyStore.getEntry(commsKeyAlias, null) as KeyStore.PrivateKeyEntry
+    val entry = keyStore.getEntry(COMMS_KEY_ALIAS, null) as KeyStore.PrivateKeyEntry
     val outCipher1 = getCipherInstance()
     outCipher1.init(Cipher.DECRYPT_MODE, entry.privateKey)
     val privateKeyBytes = getFileBytes(getPrivateKeyEncryptedFilePath(context), outCipher1)

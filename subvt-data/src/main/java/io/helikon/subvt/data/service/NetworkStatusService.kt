@@ -13,23 +13,25 @@ class NetworkStatusService(
     host: String,
     port: Int,
     private val listener: RPCSubscriptionListener<NetworkStatus, NetworkStatusDiff>,
-): RPCSubscriptionService<NetworkStatus, NetworkStatusDiff>(
-    host,
-    port,
-    listener,
-    "subscribe_networkStatus",
-    "unsubscribe_networkStatus"
-) {
-    private val responseType = TypeToken.getParameterized(
-        RPCPublishedMessage::class.java,
-        NetworkStatusUpdate::class.java,
-    ).type
+) : RPCSubscriptionService<NetworkStatus, NetworkStatusDiff>(
+        host,
+        port,
+        listener,
+        "subscribe_networkStatus",
+        "unsubscribe_networkStatus",
+    ) {
+    private val responseType =
+        TypeToken.getParameterized(
+            RPCPublishedMessage::class.java,
+            NetworkStatusUpdate::class.java,
+        ).type
 
     override suspend fun processOnSubscribed(json: String) {
-        val update = gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
-            json,
-            responseType,
-        )
+        val update =
+            gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
+                json,
+                responseType,
+            )
         listener.onSubscribed(
             this,
             subscriptionId,
@@ -40,10 +42,11 @@ class NetworkStatusService(
     }
 
     override suspend fun processUpdate(json: String) {
-        val update = gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
-            json,
-            responseType,
-        )
+        val update =
+            gson.fromJson<RPCPublishedMessage<NetworkStatusUpdate>>(
+                json,
+                responseType,
+            )
         listener.onUpdateReceived(
             this,
             subscriptionId,
@@ -52,5 +55,4 @@ class NetworkStatusService(
             update.params.body.diff,
         )
     }
-
 }

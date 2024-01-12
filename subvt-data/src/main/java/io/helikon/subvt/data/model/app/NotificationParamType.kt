@@ -5,14 +5,18 @@ import com.google.gson.annotations.SerializedName
 enum class NotificationParamDataType {
     @SerializedName("string")
     STRING,
+
     @SerializedName("integer")
     INTEGER,
+
     @SerializedName("balance")
     BALANCE,
+
     @SerializedName("float")
     FLOAT,
+
     @SerializedName("boolean")
-    BOOLEAN
+    BOOLEAN,
 }
 
 /**

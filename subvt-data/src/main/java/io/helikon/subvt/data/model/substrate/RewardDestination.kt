@@ -5,12 +5,16 @@ import com.google.gson.annotations.SerializedName
 enum class RewardDestinationType {
     @SerializedName("Account")
     ACCOUNT,
+
     @SerializedName("Controller")
     CONTROLLER,
+
     @SerializedName("None")
     NONE,
+
     @SerializedName("Staked")
     STAKED,
+
     @SerializedName("Stash")
     STASH,
 }

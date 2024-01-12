@@ -1,6 +1,13 @@
 package io.helikon.subvt.data.model.app
 
-import io.helikon.subvt.data.model.substrate.*
+import io.helikon.subvt.data.model.substrate.Account
+import io.helikon.subvt.data.model.substrate.AccountId
+import io.helikon.subvt.data.model.substrate.Nomination
+import io.helikon.subvt.data.model.substrate.ParaCoreAssignment
+import io.helikon.subvt.data.model.substrate.RewardDestination
+import io.helikon.subvt.data.model.substrate.Stake
+import io.helikon.subvt.data.model.substrate.ValidatorPreferences
+import io.helikon.subvt.data.model.substrate.ValidatorStake
 
 /**
  * Returned by the validator details service right after the initial subscription.

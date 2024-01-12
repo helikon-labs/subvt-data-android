@@ -10,10 +10,14 @@ import io.helikon.subvt.data.model.rpc.RPCSubscribeStatus
 import io.helikon.subvt.data.model.rpc.RPCUnsubscribeStatus
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
-import io.ktor.client.*
-import io.ktor.client.plugins.*
-import io.ktor.client.plugins.websocket.*
-import io.ktor.websocket.*
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
+import io.ktor.client.plugins.websocket.WebSockets
+import io.ktor.client.plugins.websocket.wss
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
+import io.ktor.websocket.send
 import kotlinx.coroutines.channels.ReceiveChannel
 
 /**
@@ -29,21 +33,23 @@ abstract class RPCSubscriptionService<K, T>(
 ) {
     private var rpcId: Long = 0
 
-    private val client: HttpClient = HttpClient {
-        install(WebSockets) {
-            pingInterval = 10 * 1000
+    private val client: HttpClient =
+        HttpClient {
+            install(WebSockets) {
+                pingInterval = 10 * 1000
+            }
+            install(HttpTimeout) {
+                requestTimeoutMillis = 3 * 60 * 1000
+                connectTimeoutMillis = 1 * 60 * 1000
+            }
         }
-        install(HttpTimeout) {
-            requestTimeoutMillis = 3 * 60 * 1000
-            connectTimeoutMillis = 1 * 60 * 1000
-        }
-    }
     private var session: DefaultClientWebSocketSession? = null
     protected var subscriptionId: Long = 0
-    protected val gson: Gson = GsonBuilder()
-        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-        .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
-        .create()
+    protected val gson: Gson =
+        GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+            .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
+            .create()
 
     private suspend fun readNextTextFrame(incoming: ReceiveChannel<Frame>): Frame.Text {
         val incomingFrame = incoming.receive()
@@ -70,7 +76,7 @@ abstract class RPCSubscriptionService<K, T>(
                             RPCUnsubscribeStatus::class.java,
                         )
                         Logger.d(
-                            "Unsubscribed subscription id: $subscriptionId"
+                            "Unsubscribed subscription id: $subscriptionId",
                         )
                         listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
                         session = null
@@ -101,14 +107,15 @@ abstract class RPCSubscriptionService<K, T>(
                         id = rpcId,
                         method = subscribeMethod,
                         params = params,
-                    )
-                )
+                    ),
+                ),
             )
             val textFrame = readNextTextFrame(incoming)
-            val subscriptionStatus = gson.fromJson(
-                textFrame.readText(),
-                RPCSubscribeStatus::class.java,
-            )
+            val subscriptionStatus =
+                gson.fromJson(
+                    textFrame.readText(),
+                    RPCSubscribeStatus::class.java,
+                )
             if (subscriptionStatus.subscriptionId <= 0) {
                 throw SubscriptionException("Invalid subscription id: ${subscriptionStatus.subscriptionId}")
             }
@@ -126,11 +133,12 @@ abstract class RPCSubscriptionService<K, T>(
                     id = rpcId,
                     method = unsubscribeMethod,
                     params = listOf(subscriptionId),
-                )
-            )
+                ),
+            ),
         )
     }
 
     abstract suspend fun processOnSubscribed(json: String)
+
     abstract suspend fun processUpdate(json: String)
 }

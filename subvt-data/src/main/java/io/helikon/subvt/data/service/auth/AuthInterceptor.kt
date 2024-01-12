@@ -14,7 +14,7 @@ import java.math.BigInteger
  * OkHTTP authentication interceptor.
  * Adds public key, nonce and ECDSA signature headers where necessary.
  */
-internal class AuthInterceptor(context: Context): Interceptor {
+internal class AuthInterceptor(context: Context) : Interceptor {
     private val keyPair: ECKeyPair
     private val signer: Signer
 
@@ -36,10 +36,11 @@ internal class AuthInterceptor(context: Context): Interceptor {
     }
 
     private fun compressPublicKey(pubKey: BigInteger): String {
-        val pubKeyYPrefix = when (pubKey.testBit(0)) {
-            true -> "03"
-            false -> "02"
-        }
+        val pubKeyYPrefix =
+            when (pubKey.testBit(0)) {
+                true -> "03"
+                false -> "02"
+            }
         val pubKeyHex = pubKey.toPaddedHexString()
         val pubKeyX = pubKeyHex.substring(0, 64)
         return pubKeyYPrefix + pubKeyX
@@ -55,11 +56,12 @@ internal class AuthInterceptor(context: Context): Interceptor {
             val body = getRequestBody(request)
             val signatureDER = signer.sign(method + path + body + nonce)
             val compressedPublicKey = compressPublicKey(keyPair.publicKey)
-            request = request.newBuilder()
-                .header("SubVT-Public-Key", compressedPublicKey)
-                .header("SubVT-Nonce", nonce.toString())
-                .header("SubVT-Signature", signatureDER)
-                .build()
+            request =
+                request.newBuilder()
+                    .header("SubVT-Public-Key", compressedPublicKey)
+                    .header("SubVT-Nonce", nonce.toString())
+                    .header("SubVT-Signature", signatureDER)
+                    .build()
         }
         return chain.proceed(request)
     }

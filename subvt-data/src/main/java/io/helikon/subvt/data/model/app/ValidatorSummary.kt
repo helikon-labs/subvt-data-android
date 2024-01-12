@@ -1,7 +1,11 @@
 package io.helikon.subvt.data.model.app
 
 import com.google.gson.annotations.SerializedName
-import io.helikon.subvt.data.model.substrate.*
+import io.helikon.subvt.data.model.substrate.AccountId
+import io.helikon.subvt.data.model.substrate.InactiveNominationsSummary
+import io.helikon.subvt.data.model.substrate.StakeSummary
+import io.helikon.subvt.data.model.substrate.ValidatorPreferences
+import io.helikon.subvt.data.model.substrate.ValidatorStakeSummary
 
 /**
  * A validator represented by the active or inactive validator details service.

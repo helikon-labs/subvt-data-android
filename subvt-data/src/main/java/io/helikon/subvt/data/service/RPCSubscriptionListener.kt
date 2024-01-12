@@ -1,7 +1,6 @@
 package io.helikon.subvt.data.service
 
 interface RPCSubscriptionListener<K, T> {
-
     suspend fun onSubscribed(
         service: RPCSubscriptionService<K, T>,
         subscriptionId: Long,
@@ -22,5 +21,4 @@ interface RPCSubscriptionListener<K, T> {
         service: RPCSubscriptionService<K, T>,
         subscriptionId: Long,
     )
-
 }

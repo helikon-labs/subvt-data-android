@@ -23,15 +23,16 @@ internal class Signer(privateKey: BigInteger) {
     init {
         val curveParams = CustomNamedCurves.getByName("secp256k1")
         halfCurveOrder = curveParams.n.shiftRight(1)
-        curve = ECDomainParameters(
-            curveParams.curve,
-            curveParams.g,
-            curveParams.n,
-            curveParams.h
-        )
+        curve =
+            ECDomainParameters(
+                curveParams.curve,
+                curveParams.g,
+                curveParams.n,
+                curveParams.h,
+            )
         signer.init(
             true,
-            ECPrivateKeyParameters(privateKey, curve)
+            ECPrivateKeyParameters(privateKey, curve),
         )
     }
 
@@ -59,6 +60,6 @@ internal class Signer(privateKey: BigInteger) {
         val sHex = s.toDERSlice()
         val sLen = (sHex.length / 2).toPaddedHexString()
         val len = (rHex.length / 2 + sHex.length / 2 + 4).toHexString()
-        return "30${len}02${rLen}${rHex}02${sLen}${sHex}"
+        return "30${len}02${rLen}${rHex}02${sLen}$sHex"
     }
 }

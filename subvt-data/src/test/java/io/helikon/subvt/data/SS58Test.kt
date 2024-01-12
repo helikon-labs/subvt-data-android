@@ -5,7 +5,8 @@ import io.helikon.subvt.data.ss58.SS58Codec.addressByteOrNull
 import io.helikon.subvt.data.ss58.SS58Codec.hexToAddress
 import io.helikon.subvt.data.ss58.SS58Codec.hexToBytes
 import io.helikon.subvt.data.ss58.SS58Codec.toAccountId
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SS58Test {

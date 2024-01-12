@@ -33,11 +33,11 @@ internal class Base58 {
             indices[alphabet[i].code] = i
         }
 
-        digest = try {
+        try {
             MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
-        }
+        }.also { digest = it }
     }
 
     fun encode(input: ByteArray): String {
@@ -120,11 +120,14 @@ internal class Base58 {
         return copyOfRange(
             temp,
             j - zeroCount,
-            temp.size
+            temp.size,
         )
     }
 
-    private fun divmod58(number: ByteArray, startAt: Int): Byte {
+    private fun divmod58(
+        number: ByteArray,
+        startAt: Int,
+    ): Byte {
         var remainder = 0
         for (i in startAt until number.size) {
             val digit256 = number[i].toInt() and 0xFF
@@ -135,7 +138,10 @@ internal class Base58 {
         return remainder.toByte()
     }
 
-    private fun divmod256(number58: ByteArray, startAt: Int): Byte {
+    private fun divmod256(
+        number58: ByteArray,
+        startAt: Int,
+    ): Byte {
         var remainder = 0
         for (i in startAt until number58.size) {
             val digit58 = number58[i].toInt() and 0xFF
@@ -146,7 +152,11 @@ internal class Base58 {
         return remainder.toByte()
     }
 
-    private fun copyOfRange(source: ByteArray, from: Int, to: Int): ByteArray {
+    private fun copyOfRange(
+        source: ByteArray,
+        from: Int,
+        to: Int,
+    ): ByteArray {
         val range = ByteArray(to - from)
         System.arraycopy(source, from, range, 0, range.size)
         return range
