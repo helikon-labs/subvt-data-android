@@ -17,11 +17,21 @@ concurrency:
 
 jobs:
   gradle-lint-test:
-    name: Gradle Lint And Test
-    runs-on: ubuntu-20.04
+    name: Lint And Test
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+      - name: Download ktlint
+        run: curl -sSLO https://github.com/pinterest/ktlint/releases/download/1.1.1/ktlint && chmod a+x ktlint && sudo mv ktlint /usr/local/bin/
+      - name: Run ktlint
+        run: ktlint --reporter=checkstyle,output=build/ktlint-report.xml
+        continue-on-error: true
+      - name: Process ktlint report
+        uses: yutailang0119/action-ktlint@v3
+        with:
+          report-path: build/*.xml # Support glob patterns by https://www.npmjs.com/package/@actions/glob
+          continue-on-error: false # If annotations contain error of severity, action-ktlint exit 1.
       - name: Create properties file
         env:
           API_HOST: ${{ secrets.API_HOST }}
@@ -48,8 +58,6 @@ jobs:
           distribution: 'temurin'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
-      - name: Run Gradle lint
-        run: ./gradlew lintDebug
       - name: Run Gradle test
         run: ./gradlew test
       - name: Upload test report
