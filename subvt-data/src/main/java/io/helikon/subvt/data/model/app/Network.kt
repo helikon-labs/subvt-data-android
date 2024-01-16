@@ -8,9 +8,11 @@ import com.google.gson.annotations.SerializedName
 data class Network(
     val id: Long,
     val hash: String,
-    val name: String,
+    val display: String,
     @SerializedName("ss58_prefix")
     val ss58Prefix: Int,
+    val tokenTicker: String,
+    val tokenDecimalCount: Int,
     val networkStatusServiceHost: String?,
     val networkStatusServicePort: Int?,
     val reportServiceHost: String?,
