@@ -13,11 +13,9 @@ import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.math.BigInteger
 import java.security.KeyPairGenerator
-import java.security.KeyStore
 import java.util.Calendar
 import javax.crypto.Cipher
 import javax.crypto.CipherInputStream
-import javax.crypto.CipherOutputStream
 import javax.security.auth.x500.X500Principal
 
 const val COMMS_KEY_ALIAS = "SubVTCommsKey"
@@ -91,6 +89,7 @@ internal fun storeKeyPair(
     context: Context,
     keyPair: ECKeyPair,
 ) {
+    /*
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
     if (!keyStore.containsAlias(COMMS_KEY_ALIAS)) {
@@ -113,9 +112,31 @@ internal fun storeKeyPair(
         )
     cipherOutputStream.write(keyPair.publicKey.toByteArray())
     cipherOutputStream.close()
+     */
+    val privateKeyStream = FileOutputStream(getPrivateKeyEncryptedFilePath(context))
+    privateKeyStream.write(keyPair.privateKey.toByteArray())
+    privateKeyStream.flush()
+    privateKeyStream.close()
+    val publicKeyStream = FileOutputStream(getPublicKeyEncryptedFilePath(context))
+    publicKeyStream.write(keyPair.publicKey.toByteArray())
+    publicKeyStream.flush()
+    publicKeyStream.close()
 }
 
-private fun getFileBytes(
+private fun getFileBytes(path: String): ByteArray {
+    val inputStream = FileInputStream(path)
+    val byteList = mutableListOf<Byte>()
+    while (true) {
+        val nextByte = inputStream.read().toByte()
+        if (nextByte == (-1).toByte()) {
+            break
+        }
+        byteList.add(nextByte)
+    }
+    return byteList.toByteArray()
+}
+
+private fun getEncryptedFileBytes(
     path: String,
     outCipher: Cipher,
 ): ByteArray {
@@ -139,14 +160,19 @@ internal fun getKeyPair(context: Context): ECKeyPair? {
     if (!File(getPrivateKeyEncryptedFilePath(context)).exists()) {
         return null
     }
+    /*
     val keyStore = KeyStore.getInstance("AndroidKeyStore")
     keyStore.load(null)
     val entry = keyStore.getEntry(COMMS_KEY_ALIAS, null) as KeyStore.PrivateKeyEntry
     val outCipher1 = getCipherInstance()
     outCipher1.init(Cipher.DECRYPT_MODE, entry.privateKey)
-    val privateKeyBytes = getFileBytes(getPrivateKeyEncryptedFilePath(context), outCipher1)
+    val privateKeyBytes = getEncryptedFileBytes(getPrivateKeyEncryptedFilePath(context), outCipher1)
     val outCipher2 = getCipherInstance()
     outCipher2.init(Cipher.DECRYPT_MODE, entry.privateKey)
-    val publicKeyBytes = getFileBytes(getPublicKeyEncryptedFilePath(context), outCipher2)
+    val publicKeyBytes = getEncryptedFileBytes(getPublicKeyEncryptedFilePath(context), outCipher2)
+    return ECKeyPair(BigInteger(privateKeyBytes), BigInteger(publicKeyBytes))
+     */
+    val privateKeyBytes = getFileBytes(getPrivateKeyEncryptedFilePath(context))
+    val publicKeyBytes = getFileBytes(getPublicKeyEncryptedFilePath(context))
     return ECKeyPair(BigInteger(privateKeyBytes), BigInteger(publicKeyBytes))
 }
