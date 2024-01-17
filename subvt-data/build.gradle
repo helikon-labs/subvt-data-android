@@ -1,8 +1,6 @@
 plugins {
     id "com.android.library"
-    id "com.google.devtools.ksp"
     id "kotlin-android"
-    id "kotlin-parcelize"
 }
 
 def propertiesFile = rootProject.file("subvt.properties")
@@ -90,9 +88,6 @@ dependencies {
 
     // web3j
     implementation "org.web3j:core-android:2.2.1"
-
-    // room
-    implementation("androidx.room:room-ktx:$roomVersion")
 
     // test
     testImplementation "junit:junit:4.13.2"
