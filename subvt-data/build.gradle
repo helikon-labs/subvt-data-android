@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 34
-        versionCode 222
-        versionName "0.22.2"
+        versionCode 223
+        versionName "0.22.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -81,6 +81,9 @@ dependencies {
 
     // log
     implementation "com.orhanobut:logger:2.2.0"
+
+    // keystore
+    implementation "androidx.security:security-crypto:1.0.0"
 
     // spongycastle
     implementation "com.madgag.spongycastle:bcpkix-jdk15on:$spongyCastleVersion"
