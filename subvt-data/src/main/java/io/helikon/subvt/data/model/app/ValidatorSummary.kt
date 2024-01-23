@@ -35,7 +35,34 @@ data class ValidatorSummary(
     val rewardPoints: Long?,
     val heartbeatReceived: Boolean?,
     val validatorStake: ValidatorStakeSummary?,
-)
+) {
+    fun apply(diff: ValidatorSummaryDiff) =
+        ValidatorSummary(
+            accountId = this.accountId,
+            address = this.address,
+            controllerAccountId = diff.controllerAccountId ?: this.controllerAccountId,
+            networkId = diff.networkId ?: this.networkId,
+            display = diff.display ?: this.display,
+            parentDisplay = diff.parentDisplay ?: this.parentDisplay,
+            childDisplay = diff.childDisplay ?: this.childDisplay,
+            confirmed = diff.confirmed ?: this.confirmed,
+            preferences = diff.preferences ?: this.preferences,
+            selfStake = diff.selfStake ?: this.selfStake,
+            isActive = diff.isActive ?: this.isActive,
+            isActiveNextSession = diff.isActiveNextSession ?: this.isActiveNextSession,
+            inactiveNominations = diff.inactiveNominations ?: this.inactiveNominations,
+            oversubscribed = diff.oversubscribed ?: this.oversubscribed,
+            slashCount = diff.slashCount ?: this.slashCount,
+            isEnrolledIn1KV = diff.isEnrolledIn1KV ?: this.isEnrolledIn1KV,
+            isParaValidator = diff.isParaValidator ?: this.isParaValidator,
+            paraId = diff.paraId ?: this.paraId,
+            returnRatePerBillion = diff.returnRatePerBillion ?: this.returnRatePerBillion,
+            blocksAuthored = diff.blocksAuthored ?: this.blocksAuthored,
+            rewardPoints = diff.rewardPoints ?: this.rewardPoints,
+            heartbeatReceived = diff.heartbeatReceived ?: this.heartbeatReceived,
+            validatorStake = diff.validatorStake ?: this.validatorStake,
+        )
+}
 
 data class ValidatorSummaryDiff(
     val accountId: AccountId,

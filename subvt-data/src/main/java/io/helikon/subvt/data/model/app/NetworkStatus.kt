@@ -24,7 +24,27 @@ data class NetworkStatus(
     val averageStake: BigInteger,
     val medianStake: BigInteger,
     val eraRewardPoints: Long,
-)
+) {
+    fun apply(diff: NetworkStatusDiff) =
+        NetworkStatus(
+            finalizedBlockNumber = diff.finalizedBlockNumber ?: this.finalizedBlockNumber,
+            finalizedBlockHash = diff.finalizedBlockHash ?: this.finalizedBlockHash,
+            bestBlockNumber = diff.bestBlockNumber ?: this.bestBlockNumber,
+            bestBlockHash = diff.bestBlockHash ?: this.bestBlockHash,
+            activeEra = diff.activeEra ?: this.activeEra,
+            currentEpoch = diff.currentEpoch ?: this.currentEpoch,
+            activeValidatorCount = diff.activeValidatorCount ?: this.activeValidatorCount,
+            inactiveValidatorCount = diff.inactiveValidatorCount ?: this.inactiveValidatorCount,
+            lastEraTotalReward = diff.lastEraTotalReward ?: this.lastEraTotalReward,
+            totalStake = diff.totalStake ?: this.totalStake,
+            returnRatePerMillion = diff.returnRatePerMillion ?: this.returnRatePerMillion,
+            minStake = diff.minStake ?: this.minStake,
+            maxStake = diff.maxStake ?: this.maxStake,
+            averageStake = diff.averageStake ?: this.averageStake,
+            medianStake = diff.medianStake ?: this.medianStake,
+            eraRewardPoints = diff.eraRewardPoints ?: this.eraRewardPoints,
+        )
+}
 
 /**
  * Subsequent data from the network status service, reflecting the changes

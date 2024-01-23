@@ -41,7 +41,39 @@ data class ValidatorDetails(
     val onekvLocation: String?,
     val onekvIsValid: Boolean?,
     val onekvOfflineSince: Long?,
-)
+) {
+    fun apply(diff: ValidatorDetailsDiff) =
+        ValidatorDetails(
+            account = diff.account ?: this.account,
+            controllerAccountId = diff.controllerAccountId ?: this.controllerAccountId,
+            networkId = diff.networkId ?: this.networkId,
+            preferences = diff.preferences ?: this.preferences,
+            selfStake = diff.selfStake ?: this.selfStake,
+            rewardDestination = diff.rewardDestination ?: this.rewardDestination,
+            nextSessionKeys = diff.nextSessionKeys ?: this.nextSessionKeys,
+            isActive = diff.isActive ?: this.isActive,
+            isActiveNextSession = diff.isActiveNextSession ?: this.isActiveNextSession,
+            nominations = diff.nominations ?: this.nominations,
+            oversubscribed = diff.oversubscribed ?: this.oversubscribed,
+            activeEraCount = diff.activeEraCount ?: this.activeEraCount,
+            inactiveEraCount = diff.inactiveEraCount ?: this.inactiveEraCount,
+            slashCount = diff.slashCount ?: this.slashCount,
+            offlineOffenceCount = diff.offlineOffenceCount ?: this.offlineOffenceCount,
+            unclaimedEraIndices = diff.unclaimedEraIndices ?: this.unclaimedEraIndices,
+            isParaValidator = diff.isParaValidator ?: this.isParaValidator,
+            paraCoreAssignment = diff.paraCoreAssignment ?: this.paraCoreAssignment,
+            returnRatePerBillion = diff.returnRatePerBillion ?: this.returnRatePerBillion,
+            blocksAuthored = diff.blocksAuthored ?: this.blocksAuthored,
+            rewardPoints = diff.rewardPoints ?: this.rewardPoints,
+            heartbeatReceived = diff.heartbeatReceived ?: this.heartbeatReceived,
+            validatorStake = diff.validatorStake ?: this.validatorStake,
+            onekvCandidateRecordId = diff.onekvCandidateRecordId ?: this.onekvCandidateRecordId,
+            onekvRank = diff.onekvRank ?: this.onekvRank,
+            onekvLocation = diff.onekvLocation ?: this.onekvLocation,
+            onekvIsValid = diff.onekvIsValid ?: this.onekvIsValid,
+            onekvOfflineSince = diff.onekvOfflineSince ?: this.onekvOfflineSince,
+        )
+}
 
 /**
  * Subsequent data from the validator details service, reflecting the changes
