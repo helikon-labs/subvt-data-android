@@ -19,6 +19,20 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import io.ktor.websocket.send
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+
+sealed class RPCSubscriptionServiceStatus {
+    data object Connected : RPCSubscriptionServiceStatus()
+
+    data class Error(val error: Throwable?) : RPCSubscriptionServiceStatus()
+
+    data object Idle : RPCSubscriptionServiceStatus()
+
+    data class Subscribed(val subscriptionId: Long) : RPCSubscriptionServiceStatus()
+
+    data object Unsubscribed : RPCSubscriptionServiceStatus()
+}
 
 /**
  * Abstract definitions for the RPC subscription services (network status, validator details,
@@ -32,6 +46,9 @@ abstract class RPCSubscriptionService<K, T>(
     private var unsubscribeMethod: String,
 ) {
     private var rpcId: Long = 0
+    private val _status =
+        MutableStateFlow<RPCSubscriptionServiceStatus>(RPCSubscriptionServiceStatus.Idle)
+    val status: StateFlow<RPCSubscriptionServiceStatus> = _status
 
     private val client: HttpClient =
         HttpClient {
@@ -78,17 +95,20 @@ abstract class RPCSubscriptionService<K, T>(
                         Logger.d(
                             "Unsubscribed subscription id: $subscriptionId",
                         )
+                        _status.value = RPCSubscriptionServiceStatus.Unsubscribed
                         listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
                         session = null
                         subscriptionId = 0
                         break
-                    } catch (ignored: Throwable) {
+                    } catch (error: Throwable) {
                         Logger.e("Unable to parse response JSON: $responseJSON")
+                        _status.value = RPCSubscriptionServiceStatus.Error(error)
                         break
                     }
                 }
-            } catch (t: Throwable) {
-                Logger.e("Error while receiving update: $t")
+            } catch (error: Throwable) {
+                Logger.e("Error while receiving update: $error")
+                _status.value = RPCSubscriptionServiceStatus.Error(error)
                 break
             }
         }
@@ -101,6 +121,7 @@ abstract class RPCSubscriptionService<K, T>(
         rpcId = (0..Int.MAX_VALUE).random().toLong()
         client.wss(host = host, port = port) {
             Logger.d("WebSockets session initialized.")
+            _status.value = RPCSubscriptionServiceStatus.Connected
             send(
                 gson.toJson(
                     RPCRequest(
@@ -117,11 +138,13 @@ abstract class RPCSubscriptionService<K, T>(
                     RPCSubscribeStatus::class.java,
                 )
             if (subscriptionStatus.subscriptionId <= 0) {
+                _status.value = RPCSubscriptionServiceStatus.Error(null)
                 throw SubscriptionException("Invalid subscription id: ${subscriptionStatus.subscriptionId}")
             }
             session = this
             subscriptionId = subscriptionStatus.subscriptionId
             Logger.d("Subscribed with id: $subscriptionId")
+            _status.value = RPCSubscriptionServiceStatus.Subscribed(subscriptionId)
             beginIncomingProcessing(incoming)
         }
     }
