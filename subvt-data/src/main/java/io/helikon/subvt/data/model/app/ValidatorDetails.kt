@@ -44,7 +44,7 @@ data class ValidatorDetails(
 ) {
     fun apply(diff: ValidatorDetailsDiff) =
         ValidatorDetails(
-            account = diff.account ?: this.account,
+            account = this.account,
             controllerAccountId = diff.controllerAccountId ?: this.controllerAccountId,
             networkId = diff.networkId ?: this.networkId,
             preferences = diff.preferences ?: this.preferences,

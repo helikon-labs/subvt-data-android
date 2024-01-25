@@ -10,12 +10,8 @@ import io.helikon.subvt.data.model.rpc.RPCPublishedMessage
  * Network status RPC service client.
  */
 class NetworkStatusService(
-    host: String,
-    port: Int,
     private val listener: RPCSubscriptionListener<NetworkStatus, NetworkStatusDiff>,
 ) : RPCSubscriptionService<NetworkStatus, NetworkStatusDiff>(
-        host,
-        port,
         listener,
         "subscribe_networkStatus",
         "unsubscribe_networkStatus",

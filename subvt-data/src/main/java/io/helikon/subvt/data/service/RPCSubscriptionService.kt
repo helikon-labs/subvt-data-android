@@ -39,8 +39,6 @@ sealed class RPCSubscriptionServiceStatus {
  * active and inactive validator list).
  */
 abstract class RPCSubscriptionService<K, T>(
-    private val host: String,
-    private val port: Int,
     private val listener: RPCSubscriptionListener<K, T>,
     private var subscribeMethod: String,
     private var unsubscribeMethod: String,
@@ -114,7 +112,11 @@ abstract class RPCSubscriptionService<K, T>(
         }
     }
 
-    suspend fun subscribe(params: List<Any>) {
+    suspend fun subscribe(
+        host: String,
+        port: Int,
+        params: List<Any>,
+    ) {
         if (session != null) {
             return
         }

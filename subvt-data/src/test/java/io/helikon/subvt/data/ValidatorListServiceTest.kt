@@ -73,12 +73,12 @@ class ValidatorListServiceTest {
                 }
             }
         val service =
-            ValidatorListService(
-                host,
-                port,
-                listener,
-            )
-        service.subscribe(listOf())
+            ValidatorListService(listener)
+        service.subscribe(
+            host,
+            port,
+            listOf(),
+        )
         return (firstResponseIsOnlyInsert ?: false) &&
             (updateCount >= updateCountLimit)
     }

@@ -12,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import kotlin.time.Duration.Companion.milliseconds
 
 @ExperimentalCoroutinesApi
 class ValidatorDetailsServiceTest {
@@ -27,7 +28,7 @@ class ValidatorDetailsServiceTest {
 
     @Test
     fun testValidatorDetails() =
-        runTest(dispatchTimeoutMs = 5 * 60 * 1000) {
+        runTest(timeout = (5 * 60 * 1000).milliseconds) {
             val validatorAccountId =
                 "0xa00505eb2a4607f27837f57232f0c456602e39540582685b4f58cde293f1a116"
             var updateCount = 0
@@ -75,12 +76,12 @@ class ValidatorDetailsServiceTest {
                     }
                 }
             val service =
-                ValidatorDetailsService(
-                    BuildConfig.RPC_HOST,
-                    BuildConfig.VALIDATOR_DETAILS_SERVICE_PORT,
-                    listener,
-                )
-            service.subscribe(listOf(validatorAccountId))
+                ValidatorDetailsService(listener)
+            service.subscribe(
+                BuildConfig.RPC_HOST,
+                BuildConfig.VALIDATOR_DETAILS_SERVICE_PORT,
+                listOf(validatorAccountId),
+            )
             assertTrue(updateCount >= updateCountLimit)
         }
 }

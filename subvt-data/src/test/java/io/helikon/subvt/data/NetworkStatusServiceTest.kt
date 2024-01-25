@@ -81,12 +81,12 @@ class NetworkStatusServiceTest {
                     }
                 }
             val service =
-                NetworkStatusService(
-                    BuildConfig.RPC_HOST,
-                    BuildConfig.NETWORK_STATUS_SERVICE_PORT,
-                    listener,
-                )
-            service.subscribe(listOf())
+                NetworkStatusService(listener)
+            service.subscribe(
+                BuildConfig.RPC_HOST,
+                BuildConfig.NETWORK_STATUS_SERVICE_PORT,
+                listOf(),
+            )
             assertTrue(updateCount >= updateCountLimit)
         }
 }

@@ -10,12 +10,8 @@ import io.helikon.subvt.data.model.rpc.RPCPublishedMessage
  * Validator details RPC service client.
  */
 class ValidatorDetailsService(
-    host: String,
-    port: Int,
     private val listener: RPCSubscriptionListener<ValidatorDetails, ValidatorDetailsDiff>,
 ) : RPCSubscriptionService<ValidatorDetails, ValidatorDetailsDiff>(
-        host,
-        port,
         listener,
         "subscribe_validatorDetails",
         "unsubscribe_validatorDetails",
