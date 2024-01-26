@@ -121,46 +121,58 @@ abstract class RPCSubscriptionService<K, T>(
             return
         }
         rpcId = (0..Int.MAX_VALUE).random().toLong()
-        client.wss(host = host, port = port) {
-            Logger.d("WebSockets session initialized.")
-            _status.value = RPCSubscriptionServiceStatus.Connected
-            send(
-                gson.toJson(
-                    RPCRequest(
-                        id = rpcId,
-                        method = subscribeMethod,
-                        params = params,
-                    ),
-                ),
-            )
-            val textFrame = readNextTextFrame(incoming)
-            val subscriptionStatus =
-                gson.fromJson(
-                    textFrame.readText(),
-                    RPCSubscribeStatus::class.java,
-                )
-            if (subscriptionStatus.subscriptionId <= 0) {
-                _status.value = RPCSubscriptionServiceStatus.Error(null)
-                throw SubscriptionException("Invalid subscription id: ${subscriptionStatus.subscriptionId}")
+        try {
+            client.wss(host = host, port = port) {
+                Logger.d("WebSockets session initialized.")
+                _status.value = RPCSubscriptionServiceStatus.Connected
+                try {
+                    send(
+                        gson.toJson(
+                            RPCRequest(
+                                id = rpcId,
+                                method = subscribeMethod,
+                                params = params,
+                            ),
+                        ),
+                    )
+                    val textFrame = readNextTextFrame(incoming)
+                    val subscriptionStatus =
+                        gson.fromJson(
+                            textFrame.readText(),
+                            RPCSubscribeStatus::class.java,
+                        )
+                    if (subscriptionStatus.subscriptionId <= 0) {
+                        _status.value = RPCSubscriptionServiceStatus.Error(null)
+                        throw SubscriptionException("Invalid subscription id: ${subscriptionStatus.subscriptionId}")
+                    }
+                    session = this
+                    subscriptionId = subscriptionStatus.subscriptionId
+                    Logger.d("Subscribed with id: $subscriptionId")
+                    _status.value = RPCSubscriptionServiceStatus.Subscribed(subscriptionId)
+                    beginIncomingProcessing(incoming)
+                } catch (error: Throwable) {
+                    _status.value = RPCSubscriptionServiceStatus.Error(error)
+                }
             }
-            session = this
-            subscriptionId = subscriptionStatus.subscriptionId
-            Logger.d("Subscribed with id: $subscriptionId")
-            _status.value = RPCSubscriptionServiceStatus.Subscribed(subscriptionId)
-            beginIncomingProcessing(incoming)
+        } catch (error: Throwable) {
+            _status.value = RPCSubscriptionServiceStatus.Error(error)
         }
     }
 
     suspend fun unsubscribe() {
-        session?.send(
-            gson.toJson(
-                RPCRequest(
-                    id = rpcId,
-                    method = unsubscribeMethod,
-                    params = listOf(subscriptionId),
+        try {
+            session?.send(
+                gson.toJson(
+                    RPCRequest(
+                        id = rpcId,
+                        method = unsubscribeMethod,
+                        params = listOf(subscriptionId),
+                    ),
                 ),
-            ),
-        )
+            )
+        } catch (error: Throwable) {
+            _status.value = RPCSubscriptionServiceStatus.Error(error)
+        }
     }
 
     abstract suspend fun processOnSubscribed(json: String)
