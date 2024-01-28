@@ -93,10 +93,10 @@ abstract class RPCSubscriptionService<K, T>(
                         Logger.d(
                             "Unsubscribed subscription id: $subscriptionId",
                         )
-                        _status.value = RPCSubscriptionServiceStatus.Unsubscribed
-                        listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
                         session = null
                         subscriptionId = 0
+                        _status.value = RPCSubscriptionServiceStatus.Unsubscribed
+                        listener.onUnsubscribed(this@RPCSubscriptionService, subscriptionId)
                         break
                     } catch (error: Throwable) {
                         Logger.e("Unable to parse response JSON: $responseJSON")
