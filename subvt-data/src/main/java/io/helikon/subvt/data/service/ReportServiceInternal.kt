@@ -99,32 +99,27 @@ internal interface ReportServiceInternal {
     suspend fun getCurrentSession(): Response<Epoch>
 
     companion object {
-        private var service: ReportServiceInternal? = null
-
         fun getInstance(baseURL: String): ReportServiceInternal {
-            if (service == null) {
-                val logInterceptor = HttpLoggingInterceptor()
-                logInterceptor.level = HttpLoggingInterceptor.Level.BODY
-                val httpClientBuilder = OkHttpClient.Builder()
-                httpClientBuilder
-                    .networkInterceptors()
-                    .add(logInterceptor)
-                val gson: Gson =
-                    GsonBuilder()
-                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                        .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
-                        .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
-                        .create()
-                val retrofit =
-                    Retrofit.Builder()
-                        .baseUrl(baseURL)
-                        .client(httpClientBuilder.build())
-                        .addConverterFactory(GsonConverterFactory.create(gson))
-                        .build()
-                service = retrofit.create(ReportServiceInternal::class.java)
-            }
-            return service!!
+            val logInterceptor = HttpLoggingInterceptor()
+            logInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            val httpClientBuilder = OkHttpClient.Builder()
+            httpClientBuilder
+                .networkInterceptors()
+                .add(logInterceptor)
+            val gson: Gson =
+                GsonBuilder()
+                    .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
+                    .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
+                    .create()
+            val retrofit =
+                Retrofit.Builder()
+                    .baseUrl(baseURL)
+                    .client(httpClientBuilder.build())
+                    .addConverterFactory(GsonConverterFactory.create(gson))
+                    .build()
+            return retrofit.create(ReportServiceInternal::class.java)
         }
     }
 }
