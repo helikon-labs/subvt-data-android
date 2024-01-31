@@ -25,6 +25,8 @@ import kotlinx.coroutines.flow.StateFlow
 sealed class RPCSubscriptionServiceStatus {
     data object Connected : RPCSubscriptionServiceStatus()
 
+    data object Connecting : RPCSubscriptionServiceStatus()
+
     data class Error(val error: Throwable?) : RPCSubscriptionServiceStatus()
 
     data object Idle : RPCSubscriptionServiceStatus()
@@ -126,6 +128,7 @@ abstract class RPCSubscriptionService<K, T>(
             return
         }
         rpcId = (0..Int.MAX_VALUE).random().toLong()
+        _status.value = RPCSubscriptionServiceStatus.Connecting
         try {
             client.wss(host = host, port = port) {
                 Logger.d("WebSockets session initialized.")
