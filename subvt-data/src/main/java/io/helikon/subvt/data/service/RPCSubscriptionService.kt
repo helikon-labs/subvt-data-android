@@ -101,12 +101,16 @@ abstract class RPCSubscriptionService<K, T>(
                         break
                     } catch (error: Throwable) {
                         Logger.e("Unable to parse response JSON: $responseJSON")
+                        session = null
+                        subscriptionId = 0
                         _status.value = RPCSubscriptionServiceStatus.Error(error)
                         break
                     }
                 }
             } catch (error: Throwable) {
                 Logger.e("Error while receiving update: $error")
+                session = null
+                subscriptionId = 0
                 _status.value = RPCSubscriptionServiceStatus.Error(error)
                 break
             }
@@ -156,6 +160,8 @@ abstract class RPCSubscriptionService<K, T>(
                 }
             }
         } catch (error: Throwable) {
+            session = null
+            subscriptionId = 0
             _status.value = RPCSubscriptionServiceStatus.Error(error)
         }
     }
@@ -172,6 +178,8 @@ abstract class RPCSubscriptionService<K, T>(
                 ),
             )
         } catch (error: Throwable) {
+            session = null
+            subscriptionId = 0
             _status.value = RPCSubscriptionServiceStatus.Error(error)
         }
     }
