@@ -18,7 +18,9 @@ import io.helikon.subvt.data.model.app.UserValidator
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.AccountIdSerializer
+import io.helikon.subvt.data.serde.immutable.ImmutableListDeserializer
 import io.helikon.subvt.data.service.auth.AuthInterceptor
+import kotlinx.collections.immutable.ImmutableList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -36,19 +38,19 @@ import retrofit2.http.Path
  */
 internal interface AppServiceInternal {
     @GET("network")
-    suspend fun getNetworks(): Response<List<Network>>
+    suspend fun getNetworks(): Response<ImmutableList<Network>>
 
     @GET("notification/channel")
-    suspend fun getNotificationChannels(): Response<List<NotificationChannel>>
+    suspend fun getNotificationChannels(): Response<ImmutableList<NotificationChannel>>
 
     @GET("notification/type")
-    suspend fun getNotificationTypes(): Response<List<NotificationType>>
+    suspend fun getNotificationTypes(): Response<ImmutableList<NotificationType>>
 
     @POST("secure/user")
     suspend fun createUser(): Response<User>
 
     @GET("secure/user/notification/channel")
-    suspend fun getUserNotificationChannels(): Response<List<UserNotificationChannel>>
+    suspend fun getUserNotificationChannels(): Response<ImmutableList<UserNotificationChannel>>
 
     @POST("secure/user/notification/channel")
     suspend fun createUserNotificationChannel(
@@ -61,7 +63,7 @@ internal interface AppServiceInternal {
     ): Response<Void>
 
     @GET("secure/user/validator")
-    suspend fun getUserValidators(): Response<List<UserValidator>>
+    suspend fun getUserValidators(): Response<ImmutableList<UserValidator>>
 
     @POST("secure/user/validator")
     suspend fun createUserValidator(
@@ -74,7 +76,7 @@ internal interface AppServiceInternal {
     ): Response<Void>
 
     @GET("secure/user/notification/rule")
-    suspend fun getUserNotificationRules(): Response<List<UserNotificationRule>>
+    suspend fun getUserNotificationRules(): Response<ImmutableList<UserNotificationRule>>
 
     @POST("secure/user/notification/rule")
     suspend fun createUserNotificationRule(
@@ -112,6 +114,7 @@ internal interface AppServiceInternal {
                         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                         .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
                         .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
+                        .registerTypeAdapter(ImmutableList::class.java, ImmutableListDeserializer())
                         .create()
                 val retrofit =
                     Retrofit.Builder()

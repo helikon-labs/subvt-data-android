@@ -6,6 +6,7 @@ import io.helikon.subvt.data.model.substrate.InactiveNominationsSummary
 import io.helikon.subvt.data.model.substrate.StakeSummary
 import io.helikon.subvt.data.model.substrate.ValidatorPreferences
 import io.helikon.subvt.data.model.substrate.ValidatorStakeSummary
+import kotlinx.collections.immutable.ImmutableList
 
 /**
  * A validator represented by the active or inactive validator details service.
@@ -96,7 +97,7 @@ data class ValidatorSummaryDiff(
  */
 data class ValidatorListUpdate(
     val finalizedBlockNumber: Long?,
-    val insert: List<ValidatorSummary>,
-    val update: List<ValidatorSummaryDiff>,
-    val removeIds: List<String>,
+    val insert: ImmutableList<ValidatorSummary>,
+    val update: ImmutableList<ValidatorSummaryDiff>,
+    val removeIds: ImmutableList<String>,
 )

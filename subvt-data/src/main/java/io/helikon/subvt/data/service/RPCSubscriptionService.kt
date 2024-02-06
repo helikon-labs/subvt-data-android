@@ -10,6 +10,7 @@ import io.helikon.subvt.data.model.rpc.RPCSubscribeStatus
 import io.helikon.subvt.data.model.rpc.RPCUnsubscribeStatus
 import io.helikon.subvt.data.model.substrate.AccountId
 import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
+import io.helikon.subvt.data.serde.immutable.ImmutableListDeserializer
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
@@ -18,6 +19,7 @@ import io.ktor.client.plugins.websocket.wss
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import io.ktor.websocket.send
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -75,6 +77,7 @@ abstract class RPCSubscriptionService<K, T>(
         GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
+            .registerTypeAdapter(ImmutableList::class.java, ImmutableListDeserializer())
             .create()
 
     private suspend fun readNextTextFrame(incoming: ReceiveChannel<Frame>): Frame.Text {
@@ -123,8 +126,10 @@ abstract class RPCSubscriptionService<K, T>(
                 session = null
                 subscriptionId = 0
                 _status.value = RPCSubscriptionServiceStatus.Error(error)
-                delay(reconnectDelay)
-                resubscribe()
+                if (isReconnecting) {
+                    delay(reconnectDelay)
+                    resubscribe()
+                }
                 break
             }
         }

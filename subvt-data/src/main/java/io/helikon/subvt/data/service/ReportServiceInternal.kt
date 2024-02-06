@@ -18,6 +18,8 @@ import io.helikon.subvt.data.model.substrate.AccountIdDeserializer
 import io.helikon.subvt.data.model.substrate.AccountIdSerializer
 import io.helikon.subvt.data.model.substrate.Epoch
 import io.helikon.subvt.data.model.substrate.Era
+import io.helikon.subvt.data.serde.immutable.ImmutableListDeserializer
+import kotlinx.collections.immutable.ImmutableList
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -36,14 +38,14 @@ internal interface ReportServiceInternal {
     suspend fun getEraReport(
         @Query("start_era_index") startEraIndex: Int,
         @Query("end_era_index") endEraIndex: Int?,
-    ): Response<List<EraReport>>
+    ): Response<ImmutableList<EraReport>>
 
     @GET("report/validator/{validator_account_id_hex}")
     suspend fun getEraValidatorReport(
         @Path("validator_account_id_hex") validatorAccountIdHex: String,
         @Query("start_era_index") startEraIndex: Int,
         @Query("end_era_index") endEraIndex: Int?,
-    ): Response<List<EraValidatorReport>>
+    ): Response<ImmutableList<EraValidatorReport>>
 
     @GET("validator/{validator_account_id_hex}/details")
     suspend fun getValidatorDetails(
@@ -112,6 +114,7 @@ internal interface ReportServiceInternal {
                     .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                     .registerTypeAdapter(AccountId::class.java, AccountIdDeserializer())
                     .registerTypeAdapter(AccountId::class.java, AccountIdSerializer())
+                    .registerTypeAdapter(ImmutableList::class.java, ImmutableListDeserializer())
                     .create()
             val retrofit =
                 Retrofit.Builder()

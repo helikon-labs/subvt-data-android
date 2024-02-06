@@ -1,5 +1,7 @@
 package io.helikon.subvt.data.model.app
 
+import kotlinx.collections.immutable.ImmutableList
+
 /**
  * Used when creating default notification rules for a notification channel of the user.
  */
@@ -54,8 +56,8 @@ data class UserNotificationRule(
     val isForAllValidators: Boolean,
     val periodType: NotificationPeriodType,
     val period: Int,
-    val validators: List<UserValidator>,
-    val notificationChannels: List<UserNotificationChannel>,
-    val parameters: List<UserNotificationRuleParameter>,
+    val validators: ImmutableList<UserValidator>,
+    val notificationChannels: ImmutableList<UserNotificationChannel>,
+    val parameters: ImmutableList<UserNotificationRuleParameter>,
     val notes: String?,
 )

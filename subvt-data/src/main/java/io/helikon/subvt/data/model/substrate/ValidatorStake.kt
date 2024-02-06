@@ -1,5 +1,6 @@
 package io.helikon.subvt.data.model.substrate
 
+import kotlinx.collections.immutable.ImmutableList
 import java.math.BigInteger
 
 /**
@@ -9,7 +10,7 @@ data class ValidatorStake(
     val account: Account,
     val selfStake: BigInteger,
     val totalStake: BigInteger,
-    val nominators: List<NominatorStake>,
+    val nominators: ImmutableList<NominatorStake>,
 )
 
 data class ValidatorStakeSummary(

@@ -8,6 +8,7 @@ import io.helikon.subvt.data.model.substrate.RewardDestination
 import io.helikon.subvt.data.model.substrate.Stake
 import io.helikon.subvt.data.model.substrate.ValidatorPreferences
 import io.helikon.subvt.data.model.substrate.ValidatorStake
+import kotlinx.collections.immutable.ImmutableList
 
 /**
  * Returned by the validator details service right after the initial subscription.
@@ -22,13 +23,13 @@ data class ValidatorDetails(
     val nextSessionKeys: String,
     val isActive: Boolean,
     val isActiveNextSession: Boolean,
-    val nominations: List<Nomination>,
+    val nominations: ImmutableList<Nomination>,
     val oversubscribed: Boolean,
     val activeEraCount: Int,
     val inactiveEraCount: Int,
     val slashCount: Int,
     val offlineOffenceCount: Int,
-    val unclaimedEraIndices: List<Int>,
+    val unclaimedEraIndices: ImmutableList<Int>,
     val isParaValidator: Boolean,
     val paraCoreAssignment: ParaCoreAssignment?,
     val returnRatePerBillion: Long?,
@@ -89,13 +90,13 @@ data class ValidatorDetailsDiff(
     val nextSessionKeys: String?,
     val isActive: Boolean?,
     val isActiveNextSession: Boolean?,
-    val nominations: List<Nomination>?,
+    val nominations: ImmutableList<Nomination>?,
     val oversubscribed: Boolean?,
     val activeEraCount: Int?,
     val inactiveEraCount: Int?,
     val slashCount: Int?,
     val offlineOffenceCount: Int?,
-    val unclaimedEraIndices: List<Int>?,
+    val unclaimedEraIndices: ImmutableList<Int>?,
     val isParaValidator: Boolean?,
     val paraCoreAssignment: ParaCoreAssignment?,
     val returnRatePerBillion: Long?,
