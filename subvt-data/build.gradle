@@ -21,16 +21,16 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "API_HOST", properties['API_HOST'])
-        buildConfigField("String", "RPC_HOST", properties['RPC_HOST'])
+        buildConfigField("String", "API_HOST", properties["API_HOST"])
+        buildConfigField("String", "RPC_HOST", properties["RPC_HOST"])
         // RPC services
-        buildConfigField("int", "NETWORK_STATUS_SERVICE_PORT", properties['NETWORK_STATUS_SERVICE_PORT'])
-        buildConfigField("int", "ACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties['ACTIVE_VALIDATOR_LIST_SERVICE_PORT'])
-        buildConfigField("int", "INACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties['INACTIVE_VALIDATOR_LIST_SERVICE_PORT'])
-        buildConfigField("int", "VALIDATOR_DETAILS_SERVICE_PORT", properties['VALIDATOR_DETAILS_SERVICE_PORT'])
+        buildConfigField("int", "NETWORK_STATUS_SERVICE_PORT", properties["NETWORK_STATUS_SERVICE_PORT"])
+        buildConfigField("int", "ACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties["ACTIVE_VALIDATOR_LIST_SERVICE_PORT"])
+        buildConfigField("int", "INACTIVE_VALIDATOR_LIST_SERVICE_PORT", properties["INACTIVE_VALIDATOR_LIST_SERVICE_PORT"])
+        buildConfigField("int", "VALIDATOR_DETAILS_SERVICE_PORT", properties["VALIDATOR_DETAILS_SERVICE_PORT"])
         // REST services
-        buildConfigField("int", "REPORT_SERVICE_PORT", properties['REPORT_SERVICE_PORT'])
-        buildConfigField("int", "APP_SERVICE_PORT", properties['APP_SERVICE_PORT'])
+        buildConfigField("int", "REPORT_SERVICE_PORT", properties["REPORT_SERVICE_PORT"])
+        buildConfigField("int", "APP_SERVICE_PORT", properties["APP_SERVICE_PORT"])
     }
 
     buildTypes {
@@ -51,10 +51,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
     }
     lintOptions {
-        disable 'TrustAllX509TrustManager'
+        disable "TrustAllX509TrustManager"
     }
 }
 
@@ -62,9 +62,11 @@ dependencies {
     // kotlin
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinCoroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7"
 
-    // gson
-    implementation 'com.google.code.gson:gson:2.10.1'
+    // serialization + gson
+    implementation "com.google.guava:guava:33.0.0-android"
+    implementation "com.google.code.gson:gson:2.10.1"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"

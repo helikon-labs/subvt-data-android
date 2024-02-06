@@ -19,8 +19,11 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import io.ktor.websocket.send
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+
+private const val RECONNECT_DELAY_MS = 3000L
 
 sealed class RPCSubscriptionServiceStatus {
     data object Connected : RPCSubscriptionServiceStatus()
@@ -44,8 +47,14 @@ abstract class RPCSubscriptionService<K, T>(
     private val listener: RPCSubscriptionListener<K, T>,
     private var subscribeMethod: String,
     private var unsubscribeMethod: String,
+    private var isReconnecting: Boolean = true,
+    private var reconnectDelay: Long = RECONNECT_DELAY_MS,
 ) {
     private var rpcId: Long = 0
+    private var host: String = ""
+    private var port: Int = 0
+    private var params = listOf<Any>()
+
     private val _status =
         MutableStateFlow<RPCSubscriptionServiceStatus>(RPCSubscriptionServiceStatus.Idle)
     val status: StateFlow<RPCSubscriptionServiceStatus> = _status
@@ -114,10 +123,14 @@ abstract class RPCSubscriptionService<K, T>(
                 session = null
                 subscriptionId = 0
                 _status.value = RPCSubscriptionServiceStatus.Error(error)
+                delay(reconnectDelay)
+                resubscribe()
                 break
             }
         }
     }
+
+    private suspend fun resubscribe() = subscribe(host, port, params)
 
     suspend fun subscribe(
         host: String,
@@ -127,6 +140,9 @@ abstract class RPCSubscriptionService<K, T>(
         if (session != null) {
             return
         }
+        this.host = host
+        this.port = port
+        this.params = params
         rpcId = (0..Int.MAX_VALUE).random().toLong()
         _status.value = RPCSubscriptionServiceStatus.Connecting
         try {
@@ -166,6 +182,10 @@ abstract class RPCSubscriptionService<K, T>(
             session = null
             subscriptionId = 0
             _status.value = RPCSubscriptionServiceStatus.Error(error)
+            if (isReconnecting) {
+                delay(reconnectDelay)
+                resubscribe()
+            }
         }
     }
 
