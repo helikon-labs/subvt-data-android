@@ -44,7 +44,7 @@ information.
     ```gradle
     dependencies {
         // ...
-        implementation 'com.github.helikon-labs:subvt-data-android:0.23.2'
+        implementation 'com.github.helikon-labs:subvt-data-android:0.24.0'
         // ...
     }
     ```
