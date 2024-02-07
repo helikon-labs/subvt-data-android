@@ -6,7 +6,7 @@ import java.math.BigInteger
  * Nominator, stake an nominees.
  */
 data class Nomination(
-    val stashAccountId: AccountId,
+    val stashAccount: Account,
     val submissionEraIndex: Int,
     val nomineeCount: Int,
     val stake: Stake,
