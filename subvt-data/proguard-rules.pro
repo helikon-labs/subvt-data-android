@@ -10,8 +10,9 @@
 
 # SubVT
 -keep class io.helikon.subvt.data.model.** { *; }
--keep class io.helikon.subvt.data.service.** { *; }
 -keep class io.helikon.subvt.data.serde.** { *; }
+-keep class io.helikon.subvt.data.service.** { *; }
+-keep class io.helikon.subvt.data.SubVTData { *; }
 
 # immutable collections
 -keep,allowobfuscation,allowshrinking class kotlinx.collections.immutable.** { *; }
