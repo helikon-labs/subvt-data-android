@@ -16,8 +16,8 @@ android {
     defaultConfig {
         minSdk 24
         targetSdk 34
-        versionCode 241
-        versionName "0.24.1"
+        versionCode 242
+        versionName "0.24.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -41,7 +41,8 @@ android {
         }
         release {
             manifestPlaceholders.cleartextTrafficPermitted = "true"
-            minifyEnabled false
+            minifyEnabled true
+            // shrinkResources true
             proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
